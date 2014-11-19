@@ -17,7 +17,7 @@ class Mysql{
      * $identifiant = Le nom d'utilisateur
      * $mdp         = Le mot de passe
      */
-    public function __construct($bdd = '', $serveur = '', $identifiant = '', $mdp = '') {
+    public function __construct($bdd = 'ComApp', $serveur = '127.0.0.1', $identifiant = 'usersio', $mdp = 'pwsio') {
         $this->serveur = $serveur;
         $this->bdd = $bdd;
         $this->identifiant = $identifiant;

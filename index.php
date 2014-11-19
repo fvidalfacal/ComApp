@@ -1,8 +1,8 @@
 <?php
 session_start();
-/*if (!isset($_SESSION['connecte']) || $_SESSION['connecte'] = false) {
+if (!isset($_SESSION['connect']) || $_SESSION['connect'] = false) {
     header("Location: login.php");
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +57,7 @@ session_start();
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Username</a>
+                <a class="navbar-brand" href="index.php"><?php echo $_SESSION['user']; ?></a>
             </div>
             <!-- /.navbar-header -->
 
@@ -68,12 +68,12 @@ session_start();
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="profil.php"><i class="fa fa-user fa-fw"></i> Profil utilisateur</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="settings.php"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -89,13 +89,14 @@ session_start();
                             <a class="active" href="index.html"><i class="fa fa-dashboard fa-fw"></i> Accueil</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts</a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Groupe(s)</a>
                             <ul class="nav nav-second-level">
+                                <?php //@TODO Liste des hashtag auto ?>
                                 <li>
-                                    <a href="flot.html">Flot Charts</a>
+                                    <a href="">SoonTM</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Morris.js Charts</a>
+                                    <a href="">SoonTM</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
