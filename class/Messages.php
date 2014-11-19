@@ -11,11 +11,12 @@ class Messages{
     
     public function __construct($id){
         $this->id = $id;
-        $query = "todo"; //Requête pour récupérer les informations en fonction de l'id utilisateur
-        $result = "todo"; //Résultat 
-        $this->content = $row['bl'];
-        $this->date = $row['bl'];
-        $this->idUser = $row['bl'];
+        $connexion = new Mysql();
+        $query = "SELECT id, content, date, idUser FROM Messages WHERE id = ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
+        $result = $connexion->TabResSQL($query); //Résultat 
+        $this->content = $result[0]['content'];
+        $this->date = $result[0]['date'];
+        $this->idUser = $result[0]['idUser'];
     }
     
     public function get($id){
