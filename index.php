@@ -68,7 +68,7 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="profil.php"><i class="fa fa-user fa-fw"></i> Profil utilisateur</a>
+                        <li><a href="index.php?profil"><i class="fa fa-user fa-fw"></i> Profil utilisateur</a>
                         </li>
                         <li><a href="settings.php"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                         </li>
@@ -82,6 +82,7 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
             </ul>
             <!-- /.navbar-top-links -->
 
+            
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
@@ -109,6 +110,38 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
             <!-- /.navbar-static-side -->
         </nav>
 
+        <?php
+        
+        if(isset($_GET['profil'])){
+        ?>
+        
+        <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Gestion du compte</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <form role="form" action="password.php" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Mot de passe actuel" name="oldPassword" type="password" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword1" type="password" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword2" type="password" value="">
+                            </div>
+                            <button class="btn btn-lg btn-success btn-block">Changer votre mot de passe
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        <?php
+        }
+        else{
+        ?>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -130,7 +163,9 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
+        <?php
+        }  
+        ?>
     </div>
     <!-- /#wrapper -->
 
