@@ -7,7 +7,7 @@ session_destroy();
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8"/>
-        <meta http-equiv="Refresh" content="2;URL=index.php"/>
+        <meta http-equiv="Refresh" content="0;URL=index.php"/>
         <title>Redirection</title>
         <?php
         include('include/css.inc.html');
