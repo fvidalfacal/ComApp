@@ -3,6 +3,7 @@ session_start();
 if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
     header("Location: login.php");
 }
+include ('includeClass.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +71,7 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="index.php?profil"><i class="fa fa-user fa-fw"></i> Profil utilisateur</a>
                         </li>
-                        <li><a href="settings.php"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
+                        <li><a href="index.php?settings"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
@@ -87,18 +88,15 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a class="active" href="index.html"><i class="fa fa-dashboard fa-fw"></i> Accueil</a>
+                            <a class="active" href="index.php"><i class="fa fa-dashboard fa-fw"></i> Accueil</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Groupe(s)</a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Groupe(s)<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <?php //@TODO Liste des hashtag auto ?>
-                                <li>
-                                    <a href="">SoonTM</a>
-                                </li>
-                                <li>
-                                    <a href="">SoonTM</a>
-                                </li>
+                            <?php
+                            $user = new Users($_SESSION['userId']);
+                            echo $user->getGroups();
+                            ?>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -110,19 +108,37 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
             <!-- /.navbar-static-side -->
         </nav>
 
-        <?php
         
-        if(isset($_GET['profil'])){
+        <!-- AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
+        <?php
+        if(isset($_GET['group'])){
         ?>
         
         <div id="page-wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Gestion du compte</h1>
-                    </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">#<?php echo $_GET['group']; ?></h1>
                 </div>
-                <div class="row">
-                    <form role="form" action="password.php" method="post">
+            </div>
+        </div>
+
+        <!-- /.AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
+        
+
+        <!-- GESTION DU PROFIL UTILISATEUR -->
+        <?php
+        }elseif(isset($_GET['profil'])){
+        ?>
+        
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Gestion du compte</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6"
+                    <form role="form" action="index.php?passwordChanged" method="post">
                         <fieldset>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Mot de passe actuel" name="oldPassword" type="password" value="">
@@ -133,14 +149,50 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
                             <div class="form-group">
                                 <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword2" type="password" value="">
                             </div>
-                            <button class="btn btn-lg btn-success btn-block">Changer votre mot de passe
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre mot de passe">
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-lg-3 col-md-6"
+                    <form role="form" action="index.php?emailChanged" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Votre adresse E-Mail actuelle" name="oldEmail" type="email" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Votre nouvelle adresse E-Mail" name="newEmail1" type="email" value="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Votre nouvelle adresse E-Mail" name="newEmail2" type="email" value="">
+                            </div>
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre E-Mail">
                         </fieldset>
                     </form>
                 </div>
             </div>
+        </div>
+        <!-- /.GESTION DU PROFIL UTILISATEUR -->
+        
+        
+        <!-- PARAMÈTRES DES GROUPES -->
         <?php
-        }
-        else{
+        }elseif(isset($_GET['settings'])){
+        ?>
+        
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Paramètres</h1>
+                </div>
+            </div>
+        </div>
+        
+        <!-- /.PARAMÈTRES DES GROUPES -->
+
+        
+        <!-- ACCUEIL -->
+        <?php
+        }elseif(isset($_GET['profil'])){
         ?>
         <div id="page-wrapper">
             <div class="row">
@@ -162,9 +214,10 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
             </div>
             <!-- /.row -->
         </div>
+        <!-- /.ACCUEIL -->
         <!-- /#page-wrapper -->
         <?php
-        }  
+        }
         ?>
     </div>
     <!-- /#wrapper -->
@@ -180,8 +233,7 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
 
     <!-- Morris Charts JavaScript -->
     <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
+    
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
