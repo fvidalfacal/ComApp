@@ -12,15 +12,20 @@ class Groups{
     public function __construct($id){
         $this->id = $id;
         $connexion = new Mysql();
-        $query = "SELECT id, name, private, readOnly FROM Groups WHERE id ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
+        $query = "SELECT id, name, private, readOnly FROM groups WHERE id =".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
         $result = $connexion->TabResSQL($query); //Résultat 
         $this->name = $result[0]['name'];
-        $this->private = $resut[0]['private'];
+        $this->private = $result[0]['private'];
         $this->readOnly = $result[0]['readOnly'];
     }
     
-    public function get($id){
+    public function getId(){
         return $this->id;
+    }
+    
+    
+    public function getName(){
+        return $this->name;
     }
     
     public function getMessages(){
