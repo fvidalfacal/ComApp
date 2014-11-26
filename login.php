@@ -1,12 +1,3 @@
-<?php
-
-if(isset($_GET['connexion'])){
-    
-}
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 

@@ -11,7 +11,7 @@ $email = $_POST['email'];
 $motDePasseCryptee = sha1($_POST['password']);
 
 //Vérification des identifiants
-$resultats = $mysql->TabResSQL('SELECT email,password, name , firstName FROM Users WHERE email = "' . $email . '" AND password = "' . $motDePasseCryptee . '";');
+$resultats = $mysql->TabResSQL('SELECT id, email,password, name , firstName FROM users WHERE email = "' . $email . '" AND password = "' . $motDePasseCryptee . '";');
 
 if (sizeof($resultats) == 0) {
     ?>
@@ -22,6 +22,7 @@ if (sizeof($resultats) == 0) {
 } else {
     $_SESSION['connect'] = true;
     $_SESSION['user'] = $resultats[0]['firstName'] ." ".$resultats[0]['name'];
+    $_SESSION['userId'] = $resultats[0]['id'];
     header('Location: index.php');
 }
 ?>
