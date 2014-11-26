@@ -12,15 +12,15 @@ class Messages{
     public function __construct($id){
         $this->id = $id;
         $connexion = new Mysql();
-        $query = "SELECT id, content, date, idUser FROM Messages WHERE id = ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
+        $query = "SELECT id, content, date, idUser FROM messages WHERE id = ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
         $result = $connexion->TabResSQL($query); //Résultat 
         $this->content = $result[0]['content'];
         $this->date = $result[0]['date'];
         $this->idUser = $result[0]['idUser'];
     }
     
-    public function get($id){
-        
+    public function getId(){
+        return $this->id;
     }
     
     public function getGroups(){
