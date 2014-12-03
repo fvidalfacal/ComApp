@@ -36,7 +36,7 @@ class Users{
         //Récupération des noms de groupes et mise en place du html
         foreach ($results as $result) {
             $groups = new Groups($result['idGroup']);
-            $html.='<li><a href="index.php?group='.$groups->getName().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
+            $html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
         
         return $html;

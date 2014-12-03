@@ -28,6 +28,12 @@ class Messages{
     }
     
     public function getAuthor(){
+        $idAuthor = $this->idUser;
+        $user= new Users($idAuthor);
+        return $user;
+    }
+    
+    public function getMessagesByIdHashtag($idHashtag){
         
     }
     

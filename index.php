@@ -39,12 +39,6 @@ include ('includeClass.php');
         <!-- DataTables CSS -->
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
 
-        <!-- jQuery -->
-        <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-
-        <!-- DataTables -->
-        <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
-
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -121,13 +115,31 @@ include ('includeClass.php');
             <!-- AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
             <?php
             if (isset($_GET['group'])) {
+
+                $groupe = new Groups($_GET['group']);
+                $nomGroupe = $groupe->getName();
                 ?>
 
                 <div id="page-wrapper">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header"><i class="fa fa-slack"></i><?php echo $_GET['group']; ?></h1>
+                            <h1 class="page-header"><i class="fa fa-slack"></i><?php echo $nomGroupe; ?></h1>
                         </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Message</th>
+                                <th>Auteur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        SoonTM ajout d'un message pour le #.
                     </div>
                 </div>
 
@@ -147,7 +159,7 @@ include ('includeClass.php');
                     </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
-                             <form role="form" action="profilchange.php" method="post">
+                            <form role="form" action="profilchange.php" method="post">
                                 <fieldset>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="Mot de passe actuel" name="oldPassword" type="password" value="">
@@ -163,7 +175,7 @@ include ('includeClass.php');
                             </form>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                             <form role="form" action="profilchange.php" method="post">
+                            <form role="form" action="profilchange.php" method="post">
                                 <fieldset>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="Votre adresse E-Mail actuelle" name="oldEmail" type="email" value="<?php echo $_SESSION['email']; ?>"></input>
@@ -249,6 +261,19 @@ include ('includeClass.php');
         <!-- Custom Theme JavaScript -->
         <script src="js/sb-admin-2.js"></script>
 
+        <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+        <!-- Initialisation de DataTable -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.dataTable').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                    }
+                });
+            });
+        </script>
     </body>
 
 </html>
