@@ -21,7 +21,7 @@ if (sizeof($resultats) == 0) {
     <?php
 } else {
     $_SESSION['connect'] = true;
-    $_SESSION['user'] = $resultats[0]['firstName'] ." ".$resultats[0]['name'];
+    $_SESSION['user'] = $resultats[0]['firstName'] ." ".strtoupper($resultats[0]['name']);
     $_SESSION['userId'] = $resultats[0]['id'];
     $_SESSION['email'] = $resultats[0]['email'];
     header('Location: index.php');

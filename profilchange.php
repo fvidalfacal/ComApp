@@ -12,7 +12,7 @@ if (isset($_POST['oldPassword'])) {
     $newPassword1 = sha1($_POST['newPassword1']);
     $newPassword2 = sha1($_POST['newPassword2']);
 
-    $user = new Users($_SESSION['userId']);
+    $user = new User($_SESSION['userId']);
     $password = $user->getPassword();
 
     if ($password == $oldPassword && $newPassword1 == $newPassword2) {
@@ -28,7 +28,7 @@ if (isset($_POST['oldPassword'])) {
     $newEmail1 = $_POST['newEmail1'];
     $newEmail2 = $_POST['newEmail2'];
 
-    $user = new Users($_SESSION['userId']);
+    $user = new User($_SESSION['userId']);
     $email = $user->getEmail();
 
     if ($email == $oldEmail && $newEmail1 == $newEmail2) {
@@ -131,7 +131,7 @@ if (isset($_POST['oldPassword'])) {
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Groupe(s)<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <?php
-                                    $user = new Users($_SESSION['userId']);
+                                    $user = new User($_SESSION['userId']);
                                     echo $user->getGroups();
                                     ?>
                                 </ul>

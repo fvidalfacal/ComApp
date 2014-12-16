@@ -1,6 +1,6 @@
 <?php
 
 
-require_once ('./class/Groups.php');
-require_once ('./class/Users.php');
-require_once ('./class/Messages.php');
+require_once ('./class/Group.php');
+require_once ('./class/User.php');
+require_once ('./class/Message.php');

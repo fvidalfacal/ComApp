@@ -2,7 +2,7 @@
 
 require_once 'Mysql.php';
 
-class Groups{
+class Group{
     
     private $id;
     private $name;

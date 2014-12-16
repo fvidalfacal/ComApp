@@ -2,7 +2,7 @@
 
 require_once 'Mysql.php';
 
-class Users{
+class User{
 
     private $id;
     private $email;
@@ -35,7 +35,7 @@ class Users{
         
         //Récupération des noms de groupes et mise en place du html
         foreach ($results as $result) {
-            $groups = new Groups($result['idGroup']);
+            $groups = new Group($result['idGroup']);
             $html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
         
