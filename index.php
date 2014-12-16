@@ -97,7 +97,7 @@ include ('includeClass.php');
                                 <a href="#"><i class="fa fa-tags fa-fw"></i> Groupe(s)<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <?php
-                                    $user = new Users($_SESSION['userId']);
+                                    $user = new User($_SESSION['userId']);
                                     echo $user->getGroups();
                                     ?>
                                 </ul>
@@ -116,8 +116,10 @@ include ('includeClass.php');
             <?php
             if (isset($_GET['group'])) {
 
-                $groupe = new Groups($_GET['group']);
+                $groupe = new Group($_GET['group']);
                 $nomGroupe = $groupe->getName();
+
+                $messages = Message::getMessagesByIdHashtag($_GET['group']);
                 ?>
 
                 <div id="page-wrapper">
@@ -126,21 +128,38 @@ include ('includeClass.php');
                             <h1 class="page-header"><i class="fa fa-slack"></i><?php echo $nomGroupe; ?></h1>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered table-hover dataTable no-footer">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Message</th>
-                                <th>Auteur</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        SoonTM ajout d'un message pour le #.
-                    </div>
+                    <?php
+                    if ($messages) {
+                        ?>
+                        <table class="table table-striped table-bordered table-hover dataTable test no-footer">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Message</th>
+                                    <th>Auteur</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php echo $messages; ?>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="page-header">Ajout d'un message</h3>
+                            </div>
+                            <form class="form-inline" role="form" action="addMessage.php" method="post">
+                                <div class="form-group">
+                                    <textarea name="content" rows=2 cols=40>#<?php echo $nomGroupe; ?></textarea>
+                                </div>
+                                <input type="submit" class="btn btn-default" value="Ajouter un message">
+                            </form>
+                        </div>
+                        <?php
+                    } else {
+                        echo '<p class="bg-danger text-danger">Il n\'y a pas de message pour ce groupe.</p>';
+                    }
+                    ?>
                 </div>
 
                 <!-- /.AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
@@ -206,6 +225,12 @@ include ('includeClass.php');
                             <h1 class="page-header">Paramètres</h1>
                         </div>
                     </div>
+                    <div class="row">
+
+                        SoonTM
+
+
+                    </div>
                 </div>
 
                 <!-- /.PARAMÈTRES DES GROUPES -->
@@ -269,7 +294,7 @@ include ('includeClass.php');
             $(document).ready(function () {
                 $('.dataTable').DataTable({
                     "language": {
-                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
                     }
                 });
             });

@@ -2,7 +2,7 @@
 
 require_once 'Mysql.php';
 
-class Messages{
+class Message{
     
     private $id;
     private $content;
@@ -29,12 +29,31 @@ class Messages{
     
     public function getAuthor(){
         $idAuthor = $this->idUser;
-        $user= new Users($idAuthor);
+        $user= new User($idAuthor);
         return $user;
     }
     
-    public function getMessagesByIdHashtag($idHashtag){
+    public static function getMessagesByIdHashtag($idHashtag){
+        //Connexion à la base de données
+        $connexion = new Mysql();
         
+        //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
+        $sql='SELECT messages.date,messages.content, users.firstName, users.name FROM messagesGroup, messages, users 
+                WHERE messagesGroup.idMessage = messages.id
+                AND messages.idUser = users.id
+                AND messagesGroup.idGroup='.$idHashtag.';';
+        $results = $connexion->tabResSQL($sql);
+        
+        foreach ($results as $result) {
+            $html.='<tr>';
+            $html.='<td>'.$result['date'].'</td>';
+            $html.='<td>'.$result['content'].'</td>';
+            $html.='<td>'.$result['firstName'].' '.strtoupper($result['name']).'</td>';
+            $html.='</tr>';
+            //$html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
+        }
+        
+        return $html;
     }
     
     public function sendNotification(){
