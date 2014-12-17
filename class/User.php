@@ -39,7 +39,7 @@ class User{
             $html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
         
-        return $html;
+        return utf8_encode($html);
     }
     
     public function getEmail(){
