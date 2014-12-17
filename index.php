@@ -143,23 +143,26 @@ include ('includeClass.php');
                                 <?php echo $messages; ?>
                             </tbody>
                         </table>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3 class="page-header">Ajout d'un message</h3>
-                            </div>
-                            <form class="form-inline" role="form" action="addMessage.php" method="post">
-                                <div class="form-group">
-                                    <textarea name="content" rows=2 cols=40>#<?php echo $nomGroupe; ?></textarea>
-                                </div>
-                                <input type="submit" class="btn btn-default" value="Ajouter un message">
-                            </form>
-                        </div>
                         <?php
                     } else {
                         echo '<p class="bg-danger text-danger">Il n\'y a pas de message pour ce groupe.</p>';
                     }
                     ?>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3 class="page-header">Ajout d'un message</h3>
+                        </div>
+                        <div  class="jMax col-lg-3 col-md-6">
+                            <form class="form-inline" role="form" action="addMessage.php" method="post">
+                                <div class="text-right"></div>
+                                <div class="form-group">
+                                    <textarea name="content" rows=4 cols=40 onkeypress="$(this).parent().prev().html((255 - $(this).val().length) + ' restant')">#<?php echo $nomGroupe; ?></textarea>
+                                </div>
+                                <input type="submit" class="btn btn-default" value="Ajouter un message">
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- /.AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
@@ -286,6 +289,8 @@ include ('includeClass.php');
         <!-- Custom Theme JavaScript -->
         <script src="js/sb-admin-2.js"></script>
 
+
+        <!-- DataTable JavaScript -->
         <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
         <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
@@ -293,8 +298,9 @@ include ('includeClass.php');
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.dataTable').DataTable({
+                    "order": [[0, "desc"]],
                     "language": {
-                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
                     }
                 });
             });

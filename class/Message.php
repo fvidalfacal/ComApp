@@ -41,7 +41,8 @@ class Message{
         $sql='SELECT messages.date,messages.content, users.firstName, users.name FROM messagesGroup, messages, users 
                 WHERE messagesGroup.idMessage = messages.id
                 AND messages.idUser = users.id
-                AND messagesGroup.idGroup='.$idHashtag.';';
+                AND messagesGroup.idGroup='.$idHashtag.'
+                ORDER BY messages.date;';
         $results = $connexion->tabResSQL($sql);
         
         foreach ($results as $result) {
@@ -53,7 +54,7 @@ class Message{
             //$html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
         
-        return $html;
+        return utf8_encode($html);
     }
     
     public function sendNotification(){
@@ -64,11 +65,17 @@ class Message{
         
     }
     
-    public function insert(){
+    public static function insertMessage($userId,$content){
+        $date = date('Y-m-d H-i-s');
+        //Connexion à la base de données
+        $connexion = new Mysql();
+        
+        //Ajout du message dans la base de données
+        $sql= "INSERT INTO messages(content, date, idUser)
+               VALUES ('".$content."', '".$date."',".$userId.")";
+        var_dump($sql);
+        $results = $connexion->execute($sql);
         
     }
     
-    public function delete(){
-        
-    }
 }
