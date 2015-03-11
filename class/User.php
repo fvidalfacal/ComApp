@@ -63,5 +63,10 @@ class User {
         $execute = Connexion::query($sql, array($password, $this->id));
         return $execute;
     }
-
+    
+    public static function verifyUser($email,$password){
+        $query = 'SELECT id, email,password, name , firstName FROM users WHERE email = ? AND password = ?;';
+        $results = Connexion::table($query, array($email, $password));
+        return $results;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('class/connexion.php');
+include('includeClass.php')
 ?>
 <html lang="en">
     <meta charset="utf-8">
@@ -12,11 +12,10 @@ include('class/connexion.php');
         <?php
         //Récuperation des identifiants
         $email = $_POST['email'];
-        $motDePasseCryptee = sha1($_POST['password']);
+        $password = sha1($_POST['password']);
 
         //Vérification des identifiants
-        $query = 'SELECT id, email,password, name , firstName FROM users WHERE email = ? AND password = ?;';
-        $results = Connexion::table($query, array($email, $motDePasseCryptee));
+        $results = User::verifyUser($email, $password);
 
         if (sizeof($results) == 0) {
             ?>
