@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Mysql.php';
+require_once 'connexion.php';
 
 class Message{
     
@@ -11,12 +11,13 @@ class Message{
     
     public function __construct($id){
         $this->id = $id;
-        $connexion = new Mysql();
-        $query = "SELECT id, content, date, idUser FROM messages WHERE id = ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
-        $result = $connexion->TabResSQL($query); //Résultat 
-        $this->content = $result[0]['content'];
-        $this->date = $result[0]['date'];
-        $this->idUser = $result[0]['idUser'];
+        //Requête pour récupérer les informations en fonction de l'id utilisateur
+        $query = "SELECT id, content, date, idUser FROM messages WHERE id = ?;"; 
+        //Résultats
+        $results = Connexion::table($query, array($this->id));
+        $this->content = $results[0]['content'];
+        $this->date = $results[0]['date'];
+        $this->idUser = $results[0]['idUser'];
     }
     
     public function getId(){
@@ -34,16 +35,14 @@ class Message{
     }
     
     public static function getMessagesByIdHashtag($idHashtag){
-        //Connexion à la base de données
-        $connexion = new Mysql();
-        
+        $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
         $sql='SELECT messages.date,messages.content, users.firstName, users.name FROM messagesGroup, messages, users 
                 WHERE messagesGroup.idMessage = messages.id
                 AND messages.idUser = users.id
-                AND messagesGroup.idGroup='.$idHashtag.'
+                AND messagesGroup.idGroup=?
                 ORDER BY messages.date;';
-        $results = $connexion->tabResSQL($sql);
+        $results = Connexion::table($sql, array($idHashtag));
         
         foreach ($results as $result) {
             $html.='<tr>';
@@ -67,15 +66,32 @@ class Message{
     
     public static function insertMessage($userId,$content){
         $date = date('Y-m-d H-i-s');
-        //Connexion à la base de données
-        $connexion = new Mysql();
         
         //Ajout du message dans la base de données
         $sql= "INSERT INTO messages(content, date, idUser)
-               VALUES ('".$content."', '".$date."',".$userId.")";
-        var_dump($sql);
-        $results = $connexion->execute($sql);
+               VALUES (?,?,?)";
+        $results = Connexion::query($sql, array($content,$date,$userId));
         
+        $searchGroup = Message::searchGroup($content);
+        return $searchGroup;
+    }
+    
+    public static function searchGroup($contentMessage){
+        $explodeGroups = explode('#', $contentMessage);
+        unset($explodeGroups[0]);
+        var_dump($explodeGroups);
+        
+        ECHO '------';
+        
+        foreach($explodeGroups as $explodeGroup){
+            $explodeSpace = explode(' ', $explodeGroup);
+            var_dump($explodeGroup);
+            $groups[] = $explodeSpace[0];
+        }
+        ECHO '------';
+        var_dump($groups);
+        $addGroups = Group::addGroups($groups);
+        return $addGroups;
     }
     
 }

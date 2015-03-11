@@ -1,8 +1,8 @@
 <?php
 
-require_once 'Mysql.php';
+require_once 'connexion.php';
 
-class User{
+class User {
 
     private $id;
     private $email;
@@ -10,66 +10,58 @@ class User{
     private $name;
     private $firstName;
 
-    public function __construct($id){
+    public function __construct($id) {
         $this->id = $id;
-        $connexion = new Mysql();
-        $query = "SELECT id, email, password, name, firstName FROM users WHERE id = ".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
-        $result = $connexion->TabResSQL($query); //Résultat 
+        //Connexion à la base de données
+        //Requête
+        $query = "SELECT id, email, password, name, firstName FROM users WHERE id = ?;"; //Requête pour récupérer les informations en fonction de l'id utilisateur
+        $result = Connexion::table($query, array($this->id));
         $this->email = $result[0]['email'];
         $this->password = $result[0]['password'];
         $this->name = $result[0]['name'];
         $this->firstName = $result[0]['firstName'];
     }
-    
-    public function getId(){
+
+    public function getId() {
         return $this->id;
     }
-    
-    public function getGroups(){
-        //Connexion à la base de données
-        $connexion = new Mysql();
-        
+
+    public function getGroups() {
+        $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
-        $sql='SELECT * FROM usersGroup WHERE idUser='.$this->getId();
-        $results = $connexion->tabResSQL($sql);
-        
+        $sql = 'SELECT * FROM usersGroup WHERE idUser=?;';
+        $results = Connexion::table($sql, array($this->id));
         //Récupération des noms de groupes et mise en place du html
         foreach ($results as $result) {
             $groups = new Group($result['idGroup']);
-            $html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
+            $html.='<li><a href="index.php?group=' . $groups->getId() . '"><i class="fa fa-slack"></i>' . $groups->getName() . '</a></li>';
         }
-        
+
         return utf8_encode($html);
     }
-    
-    public function getEmail(){
+
+    public function getEmail() {
         return $this->email;
     }
-    
-    public function setEmail($email){
+
+    public function setEmail($email) {
         //Connexion à la base de données
-        $connexion = new Mysql();
-        
         //Requête de mis à jour du mot de passe
-        $sql='UPDATE users SET email = "'.$email.'" WHERE id = '.$this->id.';';
-        $execute = $connexion->ExecuteSQL($sql);
-        return $execute;
-    }
-    
-    public function getPassword(){
-        return $this->password;
-    }
-    
-    
-    public function setPassword($password){
-        //Connexion à la base de données
-        $connexion = new Mysql();
-        
-        //Requête de mis à jour du mot de passe
-        $sql='UPDATE users SET password = "'.$password.'" WHERE id = '.$this->id.';';
-        $execute = $connexion->ExecuteSQL($sql);
+        $sql = 'UPDATE users SET email = ? WHERE id = ?;';
+        $execute = Connexion::query($sql, array($email, $this->id));
         return $execute;
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        //Connexion à la base de données
+        //Requête de mis à jour du mot de passe
+        $sql = 'UPDATE users SET password = "' . $password . '" WHERE id = ' . $this->id . ';';
+        $execute = Connexion::query($sql, array($password, $this->id));
+        return $execute;
+    }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Mysql.php';
+require_once 'connexion.php';
 
 class Group{
     
@@ -11,9 +11,9 @@ class Group{
     
     public function __construct($id){
         $this->id = $id;
-        $connexion = new Mysql();
-        $query = "SELECT id, name, private, readOnly FROM groups WHERE id =".$id.";"; //Requête pour récupérer les informations en fonction de l'id utilisateur
-        $result = $connexion->TabResSQL($query); //Résultat 
+        $query = "SELECT id, name, private, readOnly FROM groups WHERE id =?;"; //Requête pour récupérer les informations en fonction de l'id utilisateur
+        //Résultats
+        $result = Connexion::table($query, array($this->id));
         $this->name = $result[0]['name'];
         $this->private = $result[0]['private'];
         $this->readOnly = $result[0]['readOnly'];
@@ -28,12 +28,11 @@ class Group{
         return $this->name;
     }
     
-    public function getMessages(){
-        
-    }
-    
-    public function getUsers(){
-        
+    public static function addGroups($groups){
+        for($i=1;$i<=sizeof($groups);$i++){
+            
+            
+        }
     }
     
     public function update(){
