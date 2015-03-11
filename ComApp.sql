@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 12 Novembre 2014 à 17:18
--- Version du serveur :  5.5.38-0ubuntu0.14.04.1
--- Version de PHP :  5.5.9-1ubuntu4.4
+-- Généré le :  Mer 11 Mars 2015 à 13:55
+-- Version du serveur :  5.5.40-0ubuntu0.14.04.1
+-- Version de PHP :  5.5.9-1ubuntu4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,55 +23,77 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Groups`
+-- Structure de la table `groups`
 --
 
-CREATE TABLE IF NOT EXISTS `Groups` (
+CREATE TABLE IF NOT EXISTS `groups` (
 `id` int(5) NOT NULL,
   `name` varchar(255) NOT NULL,
   `private` tinyint(1) NOT NULL,
   `readOnly` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Contenu de la table `Groups`
+-- Contenu de la table `groups`
 --
 
-INSERT INTO `Groups` (`id`, `name`, `private`, `readOnly`) VALUES
+INSERT INTO `groups` (`id`, `name`, `private`, `readOnly`) VALUES
 (1, 'Twitter', 0, 0),
-(2, 'Hashtag', 0, 0);
+(2, 'Hashtag', 0, 0),
+(3, 'PPE', 0, 0),
+(4, 'ComApp', 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Messages`
+-- Structure de la table `messages`
 --
 
-CREATE TABLE IF NOT EXISTS `Messages` (
+CREATE TABLE IF NOT EXISTS `messages` (
 `id` int(10) NOT NULL,
   `content` varchar(255) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `idUser` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `messages`
+--
+
+INSERT INTO `messages` (`id`, `content`, `date`, `idUser`) VALUES
+(1, 'J''aime beaucoup #twitter, c''est ma passion.', '2014-12-03 00:00:00', 1),
+(2, 'Le #hashtag , un hashtag plutôt ennuyant à prononcer.', '2014-12-01 00:00:00', 1),
+(3, '#twitter blblbl', '2014-12-10 00:00:00', 1),
+(4, '#twitter est cool', '2014-12-02 00:00:00', 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `MessagesGroup`
+-- Structure de la table `messagesGroup`
 --
 
-CREATE TABLE IF NOT EXISTS `MessagesGroup` (
+CREATE TABLE IF NOT EXISTS `messagesGroup` (
   `idMessage` int(10) NOT NULL,
   `idGroup` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `messagesGroup`
+--
+
+INSERT INTO `messagesGroup` (`idMessage`, `idGroup`) VALUES
+(1, 1),
+(3, 1),
+(4, 1),
+(2, 2);
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Users`
+-- Structure de la table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `Users` (
+CREATE TABLE IF NOT EXISTS `users` (
 `id` int(5) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -80,57 +102,66 @@ CREATE TABLE IF NOT EXISTS `Users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Contenu de la table `Users`
+-- Contenu de la table `users`
 --
 
-INSERT INTO `Users` (`id`, `email`, `password`, `name`, `firstName`) VALUES
+INSERT INTO `users` (`id`, `email`, `password`, `name`, `firstName`) VALUES
 (1, 'jeanjacques@comapp.fr', 'dbaa30de22b1129ec140a188fc3c06a6af8e9f1f', 'Jacques', 'Jean'),
 (2, 'guymarrant@comapp.fr', 'dbaa30de22b1129ec140a188fc3c06a6af8e9f1f', 'Marrant', 'Guy');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `UsersGroup`
+-- Structure de la table `usersGroup`
 --
 
-CREATE TABLE IF NOT EXISTS `UsersGroup` (
+CREATE TABLE IF NOT EXISTS `usersGroup` (
   `idUser` int(5) NOT NULL,
   `idGroup` int(5) NOT NULL,
   `emailNotification` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Contenu de la table `usersGroup`
+--
+
+INSERT INTO `usersGroup` (`idUser`, `idGroup`, `emailNotification`) VALUES
+(1, 1, 0),
+(1, 2, 0),
+(1, 3, 0);
+
+--
 -- Index pour les tables exportées
 --
 
 --
--- Index pour la table `Groups`
+-- Index pour la table `groups`
 --
-ALTER TABLE `Groups`
+ALTER TABLE `groups`
  ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `Messages`
+-- Index pour la table `messages`
 --
-ALTER TABLE `Messages`
+ALTER TABLE `messages`
  ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`);
 
 --
--- Index pour la table `MessagesGroup`
+-- Index pour la table `messagesGroup`
 --
-ALTER TABLE `MessagesGroup`
+ALTER TABLE `messagesGroup`
  ADD PRIMARY KEY (`idMessage`,`idGroup`), ADD KEY `pk_messagesgroups_groups` (`idGroup`);
 
 --
--- Index pour la table `Users`
+-- Index pour la table `users`
 --
-ALTER TABLE `Users`
+ALTER TABLE `users`
  ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `UsersGroup`
+-- Index pour la table `usersGroup`
 --
-ALTER TABLE `UsersGroup`
+ALTER TABLE `usersGroup`
  ADD PRIMARY KEY (`idUser`,`idGroup`), ADD KEY `pk_usergroup_groups` (`idGroup`);
 
 --
@@ -138,43 +169,43 @@ ALTER TABLE `UsersGroup`
 --
 
 --
--- AUTO_INCREMENT pour la table `Groups`
+-- AUTO_INCREMENT pour la table `groups`
 --
-ALTER TABLE `Groups`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+ALTER TABLE `groups`
+MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT pour la table `Messages`
+-- AUTO_INCREMENT pour la table `messages`
 --
-ALTER TABLE `Messages`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `messages`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT pour la table `Users`
+-- AUTO_INCREMENT pour la table `users`
 --
-ALTER TABLE `Users`
+ALTER TABLE `users`
 MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Contraintes pour les tables exportées
 --
 
 --
--- Contraintes pour la table `Messages`
+-- Contraintes pour la table `messages`
 --
-ALTER TABLE `Messages`
-ADD CONSTRAINT `pk_messages_users` FOREIGN KEY (`idUser`) REFERENCES `Users` (`id`);
+ALTER TABLE `messages`
+ADD CONSTRAINT `pk_messages_users` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`);
 
 --
--- Contraintes pour la table `MessagesGroup`
+-- Contraintes pour la table `messagesGroup`
 --
-ALTER TABLE `MessagesGroup`
-ADD CONSTRAINT `pk_messagesgroups_groups` FOREIGN KEY (`idGroup`) REFERENCES `Groups` (`id`),
-ADD CONSTRAINT `pk_messagesgroup_messages` FOREIGN KEY (`idMessage`) REFERENCES `Messages` (`id`);
+ALTER TABLE `messagesGroup`
+ADD CONSTRAINT `pk_messagesgroups_groups` FOREIGN KEY (`idGroup`) REFERENCES `groups` (`id`),
+ADD CONSTRAINT `pk_messagesgroup_messages` FOREIGN KEY (`idMessage`) REFERENCES `messages` (`id`);
 
 --
--- Contraintes pour la table `UsersGroup`
+-- Contraintes pour la table `usersGroup`
 --
-ALTER TABLE `UsersGroup`
-ADD CONSTRAINT `pk_usergroup_groups` FOREIGN KEY (`idGroup`) REFERENCES `Groups` (`id`),
-ADD CONSTRAINT `pk_usergroup_users` FOREIGN KEY (`idUser`) REFERENCES `Users` (`id`);
+ALTER TABLE `usersGroup`
+ADD CONSTRAINT `pk_usergroup_groups` FOREIGN KEY (`idGroup`) REFERENCES `groups` (`id`),
+ADD CONSTRAINT `pk_usergroup_users` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
