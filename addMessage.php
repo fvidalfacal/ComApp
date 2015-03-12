@@ -10,5 +10,5 @@ $userId = $_SESSION['userId'];
 
 $addMessage = Message::insertMessage($userId, $contentMessage);
    
-
+header('Location: '.$_GET['from']);
 ?>

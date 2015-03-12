@@ -24,6 +24,13 @@ class Message{
         return $this->id;
     }
     
+    public static function getIdByContent($content,$date,$userId){
+        
+        $sql = 'SELECT id FROM messages WHERE content = ? AND date = ? AND idUser = ?';
+        $result = Connexion::table($sql, array($content,$date,$userId));
+        return $result;
+    }
+    
     public function getGroups(){
         
     }
@@ -53,7 +60,7 @@ class Message{
             //$html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
         
-        return utf8_encode($html);
+        return $html;
     }
     
     public function sendNotification(){
@@ -68,30 +75,51 @@ class Message{
         $date = date('Y-m-d H-i-s');
         
         //Ajout du message dans la base de données
-        $sql= "INSERT INTO messages(content, date, idUser)
+        $sqlInsertMessage= "INSERT INTO messages(content, date, idUser)
                VALUES (?,?,?)";
-        $results = Connexion::query($sql, array($content,$date,$userId));
+        $results = Connexion::query($sqlInsertMessage, array($content,$date,$userId));
         
-        $searchGroup = Message::searchGroup($content);
-        return $searchGroup;
-    }
-    
-    public static function searchGroup($contentMessage){
-        $explodeGroups = explode('#', $contentMessage);
+        // Récupération des hashtags du message
+        $explodeGroups = explode('#', $content);
         unset($explodeGroups[0]);
-        var_dump($explodeGroups);
-        
-        ECHO '------';
         
         foreach($explodeGroups as $explodeGroup){
             $explodeSpace = explode(' ', $explodeGroup);
-            var_dump($explodeGroup);
             $groups[] = $explodeSpace[0];
         }
-        ECHO '------';
-        var_dump($groups);
-        $addGroups = Group::addGroups($groups);
-        return $addGroups;
+        
+        //Création de(s) hashtag(s) si ils sont non existants
+        $groupsCreated = Group::createGroups($groups);
+        
+        //Si le(s) groupe(s) n'existait pas, on abonne le créateur du message au(x) groupe(s)
+        $createSubscription = Group::createSubscription($userId,$content,$groupsCreated);
+        
+        //Relier le message aux groupes
+        $createLinkMessageGroup = self::createLinkMessageGroup($content,$date,$userId,$groups);
+        
+        
+        
+        
+        
     }
+    
+    public static function createLinkMessageGroup($content,$date,$userId,$groups){
+        foreach($groups as $group){
+            //On récupère l'id du message
+            $messageId = self::getIdByContent($content, $date, $userId);
+            
+            
+            //On récupère l'id du groupe
+            $groupId = Group::getIdByName($group);
+            
+            
+            //Et on crée le lien
+            $sqlCreateLink = "INSERT INTO messagesGroup(idMessage,idGroup) VALUES (?,?)";
+            $result = Connexion::query($sqlCreateLink, array($messageId[0]['id'],$groupId[0]['id']));
+        }
+        
+        
+    }
+    
     
 }

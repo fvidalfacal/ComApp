@@ -16,7 +16,7 @@ include ('includeClass.php');
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>ComApp - Accueil </title>
+        <title>Com'App - Accueil </title>
 
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -153,7 +153,7 @@ include ('includeClass.php');
                             <h3 class="page-header">Ajout d'un message</h3>
                         </div>
                         <div  class="jMax col-lg-3 col-md-6">
-                            <form class="form-inline" role="form" action="addMessage.php" method="post">
+                            <form class="form-inline" role="form" action="addMessage.php?from=<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
                                 <div class="text-right"></div>
                                 <div class="form-group">
                                     <textarea name="content" rows=4 cols=40 onkeypress="$(this).parent().prev().html((255 - $(this).val().length) + ' restant')">#<?php echo $nomGroupe; ?></textarea>
