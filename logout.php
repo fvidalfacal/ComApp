@@ -9,9 +9,8 @@ session_destroy();
         <meta charset="utf-8"/>
         <meta http-equiv="Refresh" content="0;URL=index.php"/>
         <title>Redirection</title>
-        <?php
-        include('include/css.inc.html');
-        ?>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>

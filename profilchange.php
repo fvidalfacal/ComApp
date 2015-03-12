@@ -53,7 +53,7 @@ if (isset($_POST['oldPassword'])) {
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>ComApp</title>
+        <title>Com'App</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">

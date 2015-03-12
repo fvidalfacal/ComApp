@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ComApp - Authentification</title>
+    <title>Com'App - Authentification</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -37,6 +37,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
+                <h1 class="text-center"><strong>Com'App</strong></h1>
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please Sign In</h3>
