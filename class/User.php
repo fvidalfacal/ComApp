@@ -49,6 +49,7 @@ class User {
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET email = ? WHERE id = ?;';
         $execute = Connexion::query($sql, array($email, $this->id));
+        $this->email = $email;
         return $execute;
     }
 
@@ -61,6 +62,33 @@ class User {
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET password = "' . $password . '" WHERE id = ' . $this->id . ';';
         $execute = Connexion::query($sql, array($password, $this->id));
+        $this->password = $password;
+        return $execute;
+    }
+    
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        //Connexion à la base de données
+        //Requête de mis à jour du mot de passe
+        $sql = 'UPDATE users SET name = ? WHERE id = ?;';
+        $execute = Connexion::query($sql, array($name, $this->id));
+        $this->name = $name;
+        return $execute;
+    }
+    
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    public function setFirstName($firstName) {
+        //Connexion à la base de données
+        //Requête de mis à jour du mot de passe
+        $sql = 'UPDATE users SET email = ? WHERE id = ?;';
+        $execute = Connexion::query($sql, array($firstName, $this->id));
+        $this->firstName = $firstName;
         return $execute;
     }
 

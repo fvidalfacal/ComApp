@@ -17,10 +17,11 @@ if (isset($_POST['oldPassword'])) {
 
     if ($password == $oldPassword && $newPassword1 == $newPassword2) {
         $passwordChange = $user->setPassword($newPassword1);
-        $message= '<p class="bg-success text-success">Mot de passe modifié</p>';
+        $message= '<p class="bg-success text-success">Mot de passe modifié.</p>';
     } else {
-        $message= '<p class="bg-danger text-danger">Erreur dans la saisie de mot de passe</p>';
+        $message= '<p class="bg-danger text-danger">Erreur dans la saisie de mot de passe.</p>';
     }
+    
 } elseif (isset($_POST['oldEmail'])) {
 
 
@@ -34,10 +35,27 @@ if (isset($_POST['oldPassword'])) {
     if ($email == $oldEmail && $newEmail1 == $newEmail2) {
         $emailChange = $user->setEmail($newEmail1);
         $_SESSION['email'] = $newEmail1;
-        $message= '<p class="bg-success text-success">Email modifié</p>';
+        $message= '<p class="bg-success text-success">Email modifié.</p>';
     } else {
-        $message= '<p class="bg-danger text-danger">Erreur dans la saisie de l\'email</p>';
+        $message= '<p class="bg-danger text-danger">Erreur dans la saisie de l\'email.</p>';
     }
+    
+}elseif(isset($_POST['firstName'])){
+    
+    $newFirstName = $_POST['firstName'];
+    $user = new User($_SESSION['userId']);
+    $firstName = $user->setFirstName($newFirstName);
+    $_SESSION['firstName'] = $newFirstName;
+    $message= '<p class="bg-success text-success">Prénom modifié.</p>';
+    
+}elseif(isset($_POST['name'])){
+    
+    $newName = $_POST['name'];
+    $user = new User($_SESSION['userId']);
+    $name = $user->setName($newName);
+    $_SESSION['name'] = $newName;
+    $message= '<p class="bg-success text-success">Nom de famille modifié.</p>';
+    
 }
 ?>
 
@@ -95,7 +113,7 @@ if (isset($_POST['oldPassword'])) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['user']; ?></a>
+                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['firstName'].' '.$_SESSION['name']; ?></a>
                 </div>
                 <!-- /.navbar-header -->
 

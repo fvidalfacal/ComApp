@@ -61,7 +61,7 @@ include ('includeClass.php');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['user']; ?></a>
+                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['firstName'].' '.$_SESSION['name']; ?></a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -184,15 +184,19 @@ include ('includeClass.php');
                             <form role="form" action="profilchange.php" method="post">
                                 <fieldset>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Mot de passe actuel" name="oldPassword" type="password" value="">
+                                        <input class="form-control" placeholder="Votre prénom" name="firstName" type="text" value="<?php echo $_SESSION['firstName']; ?>"></input>
                                     </div>
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre prénom">
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <form role="form" action="profilchange.php" method="post">
+                                <fieldset>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword1" type="password" value="">
+                                        <input class="form-control" placeholder="Votre nom de famille" name="name" type="text" value="<?php echo $_SESSION['name']; ?>"></input>
                                     </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword2" type="password" value="">
-                                    </div>
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre mot de passe">
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre nom de famille">
                                 </fieldset>
                             </form>
                         </div>
@@ -209,6 +213,22 @@ include ('includeClass.php');
                                         <input class="form-control" placeholder="Votre nouvelle adresse E-Mail" name="newEmail2" type="email" value="">
                                     </div>
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre E-Mail">
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <form role="form" action="profilchange.php" method="post">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Mot de passe actuel" name="oldPassword" type="password" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword1" type="password" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Votre nouveau mot de passe" name="newPassword2" type="password" value="">
+                                    </div>
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Changer votre mot de passe">
                                 </fieldset>
                             </form>
                         </div>

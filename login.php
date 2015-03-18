@@ -52,7 +52,8 @@ include('includeClass.php')
                                 </div>';
             } else {
                 $_SESSION['connect'] = true;
-                $_SESSION['user'] = $results[0]['firstName'] . " " . strtoupper($results[0]['name']);
+                $_SESSION['firstName'] = $results[0]['firstName'];
+                $_SESSION['name'] = $results[0]['name'];
                 $_SESSION['userId'] = $results[0]['id'];
                 $_SESSION['email'] = $results[0]['email'];
                 header('Location: index.php');
