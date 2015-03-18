@@ -41,7 +41,7 @@ include('includeClass.php');
         if ($_POST) {
             if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['firstName'])) {
                 if (User::verifyPassword($_POST['password'])) {
-                    if ($_POST['password'] == $_POST['password2']) {
+                    if (sha1($_POST['password']) == sha1($_POST['password2'])) {
                         $email = $_POST['email'];
                         $password = sha1($_POST['password']);
                         $name = strtoupper($_POST['name']);
