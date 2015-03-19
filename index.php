@@ -61,7 +61,7 @@ include ('includeClass.php');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['firstName'].' '.$_SESSION['name']; ?></a>
+                    <a class="navbar-brand" href="index.php"><?php echo $_SESSION['firstName'] . ' ' . $_SESSION['name']; ?></a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -137,6 +137,7 @@ include ('includeClass.php');
                                     <th>Date</th>
                                     <th>Message</th>
                                     <th>Auteur</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -272,9 +273,52 @@ include ('includeClass.php');
                     </div>
                     <!-- /.row -->
                     <div class="row">
-
-                        Création de messages. <br>
-                        5 Derniers messages.
+                        <div class="chat-panel panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-comments fa-fw"></i>
+                                Chat
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <ul class="chat">
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                            <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Jack Sparrow</strong>
+                                                <small class="pull-right text-muted">
+                                                    <i class="fa fa-clock-o fa-fw"></i> 12 mins ago
+                                                </small>
+                                            </div>
+                                            <p>
+                                                To do
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.panel-body -->
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-warning btn-sm" id="btn-chat">
+                                            Send
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- /.panel-footer -->
+                        </div>
+                        <!-- /.panel .chat-panel -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header">Liste de tous les hashtags</h1>
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
 
 
                     </div>
@@ -316,14 +360,21 @@ include ('includeClass.php');
 
         <!-- Initialisation de DataTable -->
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('.dataTable').DataTable({
-                    "order": [[0, "desc"]],
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-                    }
-                });
-            });
+                                    $(document).ready(function () {
+                                        $('.dataTable').DataTable({
+                                        "columns": [
+                                                { "width": "10%" },
+                                                null,
+                                                { "width": "15%" },
+                                                { "width": "5%" }
+                                        ],
+                                                "order": [[0, "desc"]],
+                                                "language": {
+                                                "url"
+                                                : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                                                }
+                                    });
+                                    });
         </script>
     </body>
 

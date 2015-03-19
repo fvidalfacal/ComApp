@@ -44,7 +44,7 @@ class Message{
     public static function getMessagesByIdHashtag($idHashtag){
         $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
-        $sql='SELECT messages.date,messages.content, users.firstName, users.name FROM messagesGroup, messages, users 
+        $sql='SELECT messages.id, messages.date,messages.content, users.firstName, users.name FROM messagesGroup, messages, users 
                 WHERE messagesGroup.idMessage = messages.id
                 AND messages.idUser = users.id
                 AND messagesGroup.idGroup=?
@@ -55,7 +55,8 @@ class Message{
             $html.='<tr>';
             $html.='<td>'.$result['date'].'</td>';
             $html.='<td>'.$result['content'].'</td>';
-            $html.='<td>'.$result['firstName'].' '.strtoupper($result['name']).'</td>';
+            $html.='<td>'.$result['firstName'].' '.$result['name'].'</td>';
+            $html.='<td><a class="btn btn-danger fa fa-times" href="deleteMessage.php?id='.$result['id'].'&from='.$_SERVER['REQUEST_URI'].'" role="button"></a></td>';
             $html.='</tr>';
             //$html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
         }
@@ -97,10 +98,25 @@ class Message{
         //Relier le message aux groupes
         $createLinkMessageGroup = self::createLinkMessageGroup($content,$date,$userId,$groups);
         
+         
+    }
+    
+    public static function deleteMessage($idMessage,$idUser){
+        //On vérifie l'id de l'utilisateur qui supprime le message pour savoir si il est bien le créateur du message
+        $sqlVerifyIdUser = 'SELECT * from messages WHERE idUser = ?;';
+        $result = Connexion::table($sqlVerifyUser, array($idUser));
         
-        
-        
-        
+        if(sizeof($result) > 0 ){
+            $sqlDeleteMessageGroup = 'DELETE FROM messagesGroup WHERE idMessage = ?';
+            $resultsSqlDeleteMessageGroup = Connexion::query($sqlDeleteMessageGroup, array($idMessage));
+            
+            $sqlDeleteMessage = 'DELETE FROM messages WHERE id = ?'; 
+            $resultsSqlDeleteMessage = Connexion::query($sqlDeleteMessage, array($idMessage));
+            return true;
+        }else{
+            return false;
+        }
+                
     }
     
     public static function createLinkMessageGroup($content,$date,$userId,$groups){
