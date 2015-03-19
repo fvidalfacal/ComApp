@@ -5,6 +5,7 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
 }
 include ('includeClass.php');
 
+$message = '<div class="alert alert-info" role="alert">Vous pouvez modifier votre profil à ce <a href="index.php?profil"><b>lien</b></a> </div>';
 
 if (isset($_POST['oldPassword'])) {
 
