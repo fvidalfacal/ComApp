@@ -26,6 +26,10 @@ class User {
         return $this->id;
     }
 
+    /**
+     * 
+     * @return html, tous les groupes associé à l'utilisateur
+     */
     public function getGroups() {
         $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
