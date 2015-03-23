@@ -119,7 +119,7 @@ include ('includeClass.php');
                 $groupe = new Group($_GET['group']);
                 $nomGroupe = $groupe->getName();
 
-                $messages = Message::getMessagesByIdHashtag($_GET['group']);
+                $messages = Message::getMessagesByIdHashtag($_GET['group'],$_SESSION['userId']);
                 ?>
 
                 <div id="page-wrapper">
