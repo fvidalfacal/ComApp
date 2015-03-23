@@ -119,7 +119,7 @@ include ('includeClass.php');
                 $groupe = new Group($_GET['group']);
                 $nomGroupe = $groupe->getName();
 
-                $messages = Message::getMessagesByIdHashtag($_GET['group'],$_SESSION['userId']);
+                $messages = Message::getMessagesByIdHashtag($_GET['group'], $_SESSION['userId']);
                 ?>
 
                 <div id="page-wrapper">
@@ -157,7 +157,7 @@ include ('includeClass.php');
                             <form class="form-inline" role="form" action="addMessage.php?from=<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
                                 <div class="text-right"></div>
                                 <div class="form-group">
-                                    <textarea name="content" rows=4 cols=40 onkeypress="$(this).parent().prev().html((255 - $(this).val().length) + ' restant')">#<?php echo $nomGroupe; ?></textarea>
+                                    <textarea name="content" rows=3 cols=80 maxlength="255" onkeypress="$(this).parent().prev().html((255 - $(this).val().length) + '/255')">#<?php echo $nomGroupe; ?></textarea>
                                 </div>
                                 <input type="submit" class="btn btn-default" value="Ajouter un message">
                             </form>
@@ -266,61 +266,56 @@ include ('includeClass.php');
                 ?>
                 <div id="page-wrapper">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header">Accueil</h1>
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="row">
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-comments fa-fw"></i>
-                                Chat
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <ul class="chat">
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                            <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
-                                        </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Jack Sparrow</strong>
-                                                <small class="pull-right text-muted">
-                                                    <i class="fa fa-clock-o fa-fw"></i> 12 mins ago
-                                                </small>
-                                            </div>
-                                            <p>
-                                                To do
-                                            </p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.panel-body -->
-                            <div class="panel-footer">
-                                <div class="input-group">
-                                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-warning btn-sm" id="btn-chat">
-                                            Send
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- /.panel-footer -->
-                        </div>
-                        <!-- /.panel .chat-panel -->
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <h1 class="page-header">Liste de tous les hashtags</h1>
                             </div>
+                                <?php
+                                $allGroups = Group::getAllGroups();
+                                foreach($allGroups as $group){
+                                
+                                ?>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-comments fa-5x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div class="huge"><i class="fa fa-slack"></i><?php echo $group['name']; ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="index.php?group=<?php echo $group['id']; ?>">
+                                        <div class="panel-footer">
+                                            <span class="pull-left">Voir le groupe</span>
+                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <?php
+                                }
+                            ?>
                             <!-- /.col-lg-12 -->
                         </div>
-
-
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h2 class="page-header">Ajout d'un message</h3>
+                            </div>
+                            <div  class="jMax col-lg-3 col-md-6">
+                                <form class="form-inline" role="form" action="addMessage.php?from=<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                                    <div class="text-right"></div>
+                                    <div class="form-group">
+                                        <textarea name="content" rows=3 cols=80 maxlength="255" onkeypress="$(this).parent().prev().html((255 - $(this).val().length) + '/255')"></textarea>
+                                    </div>
+                                    <input type="submit" class="btn btn-default" value="Ajouter un message">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.row -->
                     <div class="row">
@@ -360,21 +355,21 @@ include ('includeClass.php');
 
         <!-- Initialisation de DataTable -->
         <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        $('.dataTable').DataTable({
-                                        "columns": [
-                                                { "width": "10%" },
-                                                null,
-                                                { "width": "15%" },
-                                                { "width": "5%" }
-                                        ],
+                                        $(document).ready(function () {
+                                            $('.dataTable').DataTable({
+                                                "columns": [
+                                                    {"width": "10%"},
+                                                    null,
+                                                    {"width": "15%"},
+                                                    {"width": "5%"}
+                                                ],
                                                 "order": [[0, "desc"]],
                                                 "language": {
-                                                "url"
-                                                : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                                                    "url"
+                                                            : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
                                                 }
-                                    });
-                                    });
+                                            });
+                                        });
         </script>
     </body>
 

@@ -2,14 +2,14 @@
 
 require_once 'connexion.php';
 
-class Group{
-    
+class Group {
+
     private $id;
     private $name;
     private $private;
     private $readOnly;
-    
-    public function __construct($id){
+
+    public function __construct($id) {
         $this->id = $id;
         $query = "SELECT id, name, private, readOnly FROM groups WHERE id =?;"; //Requête pour récupérer les informations en fonction de l'id utilisateur
         //Résultats
@@ -18,44 +18,52 @@ class Group{
         $this->private = $result[0]['private'];
         $this->readOnly = $result[0]['readOnly'];
     }
-    
-    public function getId(){
+
+    public function getId() {
         return $this->id;
     }
-    
-    public static function getIdByName($name){
+
+    public static function getIdByName($name) {
         $sql = 'SELECT id FROM groups WHERE name = ?';
         $result = Connexion::table($sql, array($name));
         return $result;
     }
-    
-    public function getName(){
+
+    public function getName() {
         return $this->name;
     }
-    
-    public static function createGroups($groups){
-        
+
+    public static function getAllGroups() {
+        $sqlGetAllGroups = "SELECT id, name FROM groups;";
+        $result = Connexion::table($sqlGetAllGroups, array());
+        return $result;
+    }
+
+    public static function createGroups($groups) {
+
         $groupsCreated = array();
-        
+
         //Vérification si le hashtag existe déjà, si non on l'ajoute à la base de données
-        
-        foreach($groups as $group){
-            $sqlVerif = "SELECT name FROM groups WHERE name = ?;";
-            $result = Connexion::table($sqlVerif, array($group));
-            if(empty($result)){
-                $sqlAdd = "INSERT INTO groups(name) VALUES (?);";
-                $query = Connexion::query($sqlAdd, array($group));
-                $groupsCreated[] = $group;
+
+        foreach ($groups as $group) {
+            if (strlen($group) > 0) {
+                $sqlVerif = "SELECT name FROM groups WHERE name = ?;";
+                $result = Connexion::table($sqlVerif, array($group));
+                if (empty($result)) {
+                    $sqlAdd = "INSERT INTO groups(name) VALUES (?);";
+                    $query = Connexion::query($sqlAdd, array($group));
+                    $groupsCreated[] = $group;
+                }
             }
         }
         return $groupsCreated;
     }
-    
-    public static function createSubscription($userId,$content,$groups){
+
+    public static function createSubscription($userId, $content, $groups) {
         $groupsId = array();
         var_dump($groups);
         foreach ($groups as $group) {
-            
+
             //Avant cela on récupère l'id du groupe
             $groupId = self::getIdByName($group);
             $groupsId[] = $groupId[0]['id'];
@@ -63,21 +71,21 @@ class Group{
             var_dump($userId);
             //Et on insère
             $sqlSubscription = 'INSERT INTO usersGroup(idUser, idGroup) Values(?,?);';
-            $resultSubscription = Connexion::query($sqlSubscription, array($userId,$groupId[0]['id']));
+            $resultSubscription = Connexion::query($sqlSubscription, array($userId, $groupId[0]['id']));
         }
         return $groupsId;
     }
-    
-    public function update(){
+
+    public function update() {
         
     }
-    
-    public function insert(){
+
+    public function insert() {
         
     }
-    
-    public function delete(){
+
+    public function delete() {
         
     }
-            
+
 }
