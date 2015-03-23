@@ -44,7 +44,7 @@ class Message {
     public static function getMessagesByIdHashtag($idHashtag, $userId) {
         $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
-        $sql = 'SELECT messages.id, messages.date,messages.content, users.id, users.firstName, users.name FROM messagesGroup, messages, users 
+        $sql = 'SELECT messages.id, messages.date,messages.content, users.id AS idUser, users.firstName, users.name FROM messagesGroup, messages, users 
                 WHERE messagesGroup.idMessage = messages.id
                 AND messages.idUser = users.id
                 AND messagesGroup.idGroup=?
@@ -57,7 +57,7 @@ class Message {
             $html.='<td>' . $result['content'] . '</td>';
             $html.='<td>' . $result['firstName'] . ' ' . $result['name'] . '</td>';
             $html.='<td>';
-            if ($userId == $result['id']) {
+            if ($userId == $result['idUser']) {
                 $html.='<a class="btn btn-danger fa fa-times" href="deleteMessage.php?id=' . $result['id'] . '&from=' . $_SERVER['REQUEST_URI'] . '" role="button"></a>';
             }
             $html.='</td>';
