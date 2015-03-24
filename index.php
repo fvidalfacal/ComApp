@@ -240,28 +240,6 @@ include ('includeClass.php');
 
                 <!-- PARAMÈTRES DES GROUPES -->
                 <?php
-            } elseif (isset($_GET['settings'])) {
-                ?>
-
-                <div     id="page-wrapper">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header">Paramètres</h1>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        SoonTM
-
-
-                    </div>
-                </div>
-
-                <!-- /.PARAMÈTRES DES GROUPES -->
-
-
-                <!-- ACCUEIL -->
-                <?php
             } else {
                 ?>
                 <div id="page-wrapper">
@@ -271,34 +249,33 @@ include ('includeClass.php');
                             <div class="col-lg-12">
                                 <h1 class="page-header">Liste de tous les hashtags</h1>
                             </div>
-                                <?php
-                                $allGroups = Group::getAllGroups();
-                                foreach($allGroups as $group){
-                                
-                                ?>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <i class="fa fa-comments fa-5x"></i>
-                                            </div>
-                                            <div class="col-xs-9 text-right">
-                                                <div class="huge"><i class="fa fa-slack"></i><?php echo $group['name']; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="index.php?group=<?php echo $group['id']; ?>">
-                                        <div class="panel-footer">
-                                            <span class="pull-left">Voir le groupe</span>
-                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
                             <?php
-                                }
+                            $allGroups = Group::getAllGroups();
+                            foreach ($allGroups as $group) {
+                                ?>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-comments fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge"><i class="fa fa-slack"></i><?php echo $group['name']; ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="index.php?group=<?php echo $group['id']; ?>">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Voir le groupe</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <?php
+                            }
                             ?>
                             <!-- /.col-lg-12 -->
                         </div>
