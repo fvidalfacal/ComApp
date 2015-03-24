@@ -105,8 +105,8 @@ class Message {
 
     public static function deleteMessage($idMessage, $idUser) {
         //On vérifie l'id de l'utilisateur qui supprime le message pour savoir si il est bien le créateur du message
-        $sqlVerifyIdUser = 'SELECT * from messages WHERE idUser = ?;';
-        $result = Connexion::table($sqlVerifyUser, array($idUser));
+        $sqlVerifyIdUser = 'SELECT messages.id from messages WHERE id = ? AND idUser = ?;';
+        $result = Connexion::table($sqlVerifyIdUser, array($idMessage, $idUser));
 
         if (sizeof($result) > 0) {
             $sqlDeleteMessageGroup = 'DELETE FROM messagesGroup WHERE idMessage = ?';
