@@ -113,7 +113,6 @@ class User {
                     .'(?=.*\d)'    // Le mot de passe doit contenir un chiffre
                     .'(?=.*[a-z])'    // Le mot de passe doit contenir au moins une lettre minuscule
                     .'(?=.*[A-Z])'    // Le mot de passe doit contenir au moins une lettre majuscule
-                    //.'(?=.*[@#$%])'    // Le mot de passe doit contenir au moins un caractère spéciale parmi "@#$%"
                     .'.'        // Toutes les conditions précédente doivent être respectées
                     .'{7,20}'    //  La longueur doit être comprises entre 7 et 20 caractères
                   .')';    // Fin';
