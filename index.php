@@ -98,7 +98,12 @@ include ('includeClass.php');
                                 <ul class="nav nav-second-level">
                                     <?php
                                     $user = new User($_SESSION['userId']);
-                                    echo $user->getGroups();
+                                    $groupsUser = $user->getGroups();
+                                    foreach($groupsUser as $groupUser){
+                                        ?>
+                                        <li><a href="index.php?group=<?php echo $groupUser->getId()?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
+                                        <?php
+                                    }
                                     ?>
                                 </ul>
                                 <!-- /.nav-second-level -->
@@ -239,6 +244,42 @@ include ('includeClass.php');
 
 
                 <!-- PARAMÈTRES DES GROUPES -->
+
+                <?php
+            } elseif (isset($_GET['settings'])) {
+                ?>
+                <div id="page-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">Gestion de ses abonnements</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <?php foreach($groupsUser as $paramsGroupUser){ ?>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-comments fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge"><i class="fa fa-slack"></i><?php echo $paramsGroupUser->getName(); ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="unsubscribe.php?id=<?php echo $paramsGroupUser->getId(); ?>">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">Se désabonner</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
                 <?php
             } else {
                 ?>
