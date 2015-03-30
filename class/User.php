@@ -28,20 +28,18 @@ class User {
 
     /**
      * 
-     * @return html, tous les groupes associé à l'utilisateur
+     * @return Group, tous les groupes associé à l'utilisateur
      */
     public function getGroups() {
-        $html = "";
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
         $sql = 'SELECT * FROM usersGroup WHERE idUser=?;';
         $results = Connexion::table($sql, array($this->id));
-        //Récupération des noms de groupes et mise en place du html
+        //Récupération des groups
         foreach ($results as $result) {
-            $groups = new Group($result['idGroup']);
-            $html.='<li><a href="index.php?group=' . $groups->getId() . '"><i class="fa fa-slack"></i>' . $groups->getName() . '</a></li>';
+            $groups[] = new Group($result['idGroup']);
         }
 
-        return utf8_encode($html);
+        return $groups;
     }
 
     public function getEmail() {
