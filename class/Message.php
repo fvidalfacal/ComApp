@@ -31,9 +31,6 @@ class Message {
         return $result;
     }
 
-    public function getGroups() {
-        
-    }
 
     public function getAuthor() {
         $idAuthor = $this->idUser;
@@ -68,13 +65,6 @@ class Message {
         return $html;
     }
 
-    public function sendNotification() {
-        //@todo plus tard
-    }
-
-    public function update() {
-        
-    }
 
     public static function insertMessage($userId, $content) {
         $date = date('Y-m-d H-i-s');
@@ -97,7 +87,7 @@ class Message {
         $groupsCreated = Group::createGroups($groups);
 
         //Si le(s) groupe(s) n'existait pas, on abonne le créateur du message au(x) groupe(s)
-        $createSubscription = Group::createSubscription($userId, $content, $groupsCreated);
+        $createSubscription = Group::createSubscription($userId, $groupsCreated);
 
         //Relier le message aux groupes
         $createLinkMessageGroup = self::createLinkMessageGroup($content, $date, $userId, $groups);
