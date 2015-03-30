@@ -288,7 +288,8 @@ include ('includeClass.php');
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header">Liste de tous les hashtags</h1>
+                                <h1 class="page-header">Liste de tous les hashtags <a class="btn btn-default" href="#addMessage" role="button">Ajouter un message</a></h1>
+                                
                             </div>
                             <?php
                             $allGroups = Group::getAllGroups();
@@ -322,6 +323,7 @@ include ('includeClass.php');
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
+                                <a name="addMessage"></a>
                                 <h2 class="page-header">Ajout d'un message</h3>
                             </div>
                             <div  class="jMax col-lg-3 col-md-6">
