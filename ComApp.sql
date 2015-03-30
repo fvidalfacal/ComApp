@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 11 Mars 2015 à 13:55
--- Version du serveur :  5.5.40-0ubuntu0.14.04.1
--- Version de PHP :  5.5.9-1ubuntu4.5
+-- Généré le :  Lun 30 Mars 2015 à 11:41
+-- Version du serveur :  5.5.41-0ubuntu0.14.04.1
+-- Version de PHP :  5.5.9-1ubuntu4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,20 +28,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `groups` (
 `id` int(5) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `private` tinyint(1) NOT NULL,
-  `readOnly` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Contenu de la table `groups`
 --
 
-INSERT INTO `groups` (`id`, `name`, `private`, `readOnly`) VALUES
-(1, 'Twitter', 0, 0),
-(2, 'Hashtag', 0, 0),
-(3, 'PPE', 0, 0),
-(4, 'ComApp', 0, 0);
+INSERT INTO `groups` (`id`, `name`) VALUES
+(9, 'Twitter'),
+(10, 'Projet'),
+(11, 'ComApp'),
+(12, 'Hashtag');
 
 -- --------------------------------------------------------
 
@@ -54,17 +52,15 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `content` varchar(255) NOT NULL,
   `date` datetime NOT NULL,
   `idUser` int(5) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Contenu de la table `messages`
 --
 
 INSERT INTO `messages` (`id`, `content`, `date`, `idUser`) VALUES
-(1, 'J''aime beaucoup #twitter, c''est ma passion.', '2014-12-03 00:00:00', 1),
-(2, 'Le #hashtag , un hashtag plutôt ennuyant à prononcer.', '2014-12-01 00:00:00', 1),
-(3, '#twitter blblbl', '2014-12-10 00:00:00', 1),
-(4, '#twitter est cool', '2014-12-02 00:00:00', 2);
+(16, '#Twitter #Projet #ComApp #Hashtag', '2015-03-23 10:42:26', 1),
+(29, '#Twitter c''est rigolo', '2015-03-24 13:35:59', 2);
 
 -- --------------------------------------------------------
 
@@ -82,10 +78,11 @@ CREATE TABLE IF NOT EXISTS `messagesGroup` (
 --
 
 INSERT INTO `messagesGroup` (`idMessage`, `idGroup`) VALUES
-(1, 1),
-(3, 1),
-(4, 1),
-(2, 2);
+(16, 9),
+(29, 9),
+(16, 10),
+(16, 11),
+(16, 12);
 
 -- --------------------------------------------------------
 
@@ -99,15 +96,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `name` varchar(30) NOT NULL,
   `firstName` varchar(30) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Contenu de la table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `name`, `firstName`) VALUES
-(1, 'jeanjacques@comapp.fr', 'dbaa30de22b1129ec140a188fc3c06a6af8e9f1f', 'Jacques', 'Jean'),
-(2, 'guymarrant@comapp.fr', 'dbaa30de22b1129ec140a188fc3c06a6af8e9f1f', 'Marrant', 'Guy');
+(1, 'jeanjacques@comapp.fr', '128a3fcbb2af3b896c0ab913902a29ef5cb8ba6f', 'JACQUES', 'Jean'),
+(2, 'guymarrant@comapp.fr', '128a3fcbb2af3b896c0ab913902a29ef5cb8ba6f', 'MARRANT', 'Guy'),
+(3, 'florianvidalfacal@gmail.com', '128a3fcbb2af3b896c0ab913902a29ef5cb8ba6f', 'VIDAL-FACAL', 'Florian'),
+(7, 'imaginesdragon@gmail.com', '128a3fcbb2af3b896c0ab913902a29ef5cb8ba6f', 'IMAGINE', 'Dragons');
 
 -- --------------------------------------------------------
 
@@ -117,18 +116,18 @@ INSERT INTO `users` (`id`, `email`, `password`, `name`, `firstName`) VALUES
 
 CREATE TABLE IF NOT EXISTS `usersGroup` (
   `idUser` int(5) NOT NULL,
-  `idGroup` int(5) NOT NULL,
-  `emailNotification` tinyint(1) NOT NULL
+  `idGroup` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `usersGroup`
 --
 
-INSERT INTO `usersGroup` (`idUser`, `idGroup`, `emailNotification`) VALUES
-(1, 1, 0),
-(1, 2, 0),
-(1, 3, 0);
+INSERT INTO `usersGroup` (`idUser`, `idGroup`) VALUES
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12);
 
 --
 -- Index pour les tables exportées
@@ -172,17 +171,17 @@ ALTER TABLE `usersGroup`
 -- AUTO_INCREMENT pour la table `groups`
 --
 ALTER TABLE `groups`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- Contraintes pour les tables exportées
 --
