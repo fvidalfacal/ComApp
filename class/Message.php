@@ -24,6 +24,14 @@ class Message {
         return $this->id;
     }
 
+    public function getContent() {
+        return $this->content;
+    }
+
+    public function getDate() {
+        return $this->date;
+    }
+
     public static function getIdByContent($content, $date, $userId) {
 
         $sql = 'SELECT id FROM messages WHERE content = ? AND date = ? AND idUser = ?';
@@ -31,40 +39,27 @@ class Message {
         return $result;
     }
 
-
     public function getAuthor() {
         $idAuthor = $this->idUser;
         $user = new User($idAuthor);
         return $user;
     }
 
-    public static function getMessagesByIdHashtag($idHashtag, $userId) {
-        $html = "";
+    public static function getMessagesByIdHashtag($idHashtag) {
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
-        $sql = 'SELECT messages.id, messages.date,messages.content, users.id AS idUser, users.firstName, users.name FROM messagesGroup, messages, users 
+        $sql = 'SELECT messages.id, messages.date,messages.content
+                FROM messagesGroup, messages
                 WHERE messagesGroup.idMessage = messages.id
-                AND messages.idUser = users.id
                 AND messagesGroup.idGroup=?
                 ORDER BY messages.date;';
         $results = Connexion::table($sql, array($idHashtag));
 
         foreach ($results as $result) {
-            $html.='<tr>';
-            $html.='<td>' . $result['date'] . '</td>';
-            $html.='<td>' . $result['content'] . '</td>';
-            $html.='<td>' . $result['firstName'] . ' ' . $result['name'] . '</td>';
-            $html.='<td>';
-            if ($userId == $result['idUser']) {
-                $html.='<a class="btn btn-danger fa fa-times" href="deleteMessage.php?id=' . $result['id'] . '&from=' . $_SERVER['REQUEST_URI'] . '" role="button"></a>';
-            }
-            $html.='</td>';
-            $html.='</tr>';
-            //$html.='<li><a href="index.php?group='.$groups->getId().'"><i class="fa fa-slack"></i>'.$groups->getName().'</a></li>';
+            $message[] = new Message($result['id']);
         }
 
-        return $html;
+        return $message;
     }
-
 
     public static function insertMessage($userId, $content) {
         $date = date('Y-m-d H-i-s');

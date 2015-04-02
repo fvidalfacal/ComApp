@@ -99,9 +99,9 @@ include ('includeClass.php');
                                     <?php
                                     $user = new User($_SESSION['userId']);
                                     $groupsUser = $user->getGroups();
-                                    foreach($groupsUser as $groupUser){
+                                    foreach ($groupsUser as $groupUser) {
                                         ?>
-                                        <li><a href="index.php?group=<?php echo $groupUser->getId()?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
+                                        <li><a href="index.php?group=<?php echo $groupUser->getId() ?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
                                         <?php
                                     }
                                     ?>
@@ -124,7 +124,7 @@ include ('includeClass.php');
                 $groupe = new Group($_GET['group']);
                 $nomGroupe = $groupe->getName();
 
-                $messages = Message::getMessagesByIdHashtag($_GET['group'], $_SESSION['userId']);
+                $messages = Message::getMessagesByIdHashtag($_GET['group']);
                 ?>
 
                 <div id="page-wrapper">
@@ -146,7 +146,23 @@ include ('includeClass.php');
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php echo $messages; ?>
+                                <?php
+                                foreach ($messages as $message) {
+                                    $user = $message->getAuthor();
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $message->getDate(); ?></td>
+                                        <td><?php echo $message->getContent(); ?></td>
+                                        <td><?php echo $user->getFirstName() . ' ' . $user->getName(); ?></td>
+                                        <td><?php
+                                            if ($user->getId() == $_SESSION['userId']) {
+                                                echo '<a class="btn btn-danger fa fa-times" href="deleteMessage.php?id=' . $message->getId() . '&from=' . $_SERVER['REQUEST_URI'] . '" role="button"></a>';
+                                            }
+                                            ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                         <?php
@@ -255,28 +271,28 @@ include ('includeClass.php');
                         </div>
                     </div>
                     <div class="row">
-                        <?php foreach($groupsUser as $paramsGroupUser){ ?>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="panel panel-red">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-xs-3">
-                                            <i class="fa fa-comments fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-9 text-right">
-                                            <div class="huge"><i class="fa fa-slack"></i><?php echo $paramsGroupUser->getName(); ?></div>
+                        <?php foreach ($groupsUser as $paramsGroupUser) { ?>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-red">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-comments fa-5x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <div class="huge"><i class="fa fa-slack"></i><?php echo $paramsGroupUser->getName(); ?></div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <a href="unsubscribe.php?id=<?php echo $paramsGroupUser->getId(); ?>">
+                                        <div class="panel-footer">
+                                            <span class="pull-left">Se désabonner</span>
+                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <a href="unsubscribe.php?id=<?php echo $paramsGroupUser->getId(); ?>">
-                                    <div class="panel-footer">
-                                        <span class="pull-left">Se désabonner</span>
-                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </a>
                             </div>
-                        </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -289,7 +305,7 @@ include ('includeClass.php');
                         <div class="row">
                             <div class="col-lg-12">
                                 <h1 class="page-header">Liste de tous les hashtags <a class="btn btn-default" href="#addMessage" role="button">Ajouter un message</a></h1>
-                                
+
                             </div>
                             <?php
                             $allGroups = Group::getAllGroups();

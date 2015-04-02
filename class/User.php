@@ -55,10 +55,6 @@ class User {
         return $execute;
     }
 
-    public function getPassword() {
-        return $this->password;
-    }
-
     public function setPassword($password) {
         //Connexion à la base de données
         //Requête de mis à jour du mot de passe
@@ -67,7 +63,7 @@ class User {
         $this->password = $password;
         return $execute;
     }
-    
+
     public function getName() {
         return $this->name;
     }
@@ -80,7 +76,7 @@ class User {
         $this->name = $name;
         return $execute;
     }
-    
+
     public function getFirstName() {
         return $this->firstName;
     }
@@ -108,12 +104,12 @@ class User {
 
     public static function verifyPassword($password) {
         $regex = '('    // Commencement
-                    .'(?=.*\d)'    // Le mot de passe doit contenir un chiffre
-                    .'(?=.*[a-z])'    // Le mot de passe doit contenir au moins une lettre minuscule
-                    .'(?=.*[A-Z])'    // Le mot de passe doit contenir au moins une lettre majuscule
-                    .'.'        // Toutes les conditions précédente doivent être respectées
-                    .'{7,20}'    //  La longueur doit être comprises entre 7 et 20 caractères
-                  .')';    // Fin';
+                . '(?=.*\d)'    // Le mot de passe doit contenir un chiffre
+                . '(?=.*[a-z])'    // Le mot de passe doit contenir au moins une lettre minuscule
+                . '(?=.*[A-Z])'    // Le mot de passe doit contenir au moins une lettre majuscule
+                . '.'        // Toutes les conditions précédente doivent être respectées
+                . '{7,20}'    //  La longueur doit être comprises entre 7 et 20 caractères
+                . ')';    // Fin';
         $verify = preg_match($regex, $password);
         return $verify;
     }
