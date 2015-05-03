@@ -8,7 +8,7 @@ include ('includeClass.php');
 $message = '<div class="alert alert-info" role="alert">Vous pouvez modifier votre profil à ce <a href="index.php?profil"><b>lien</b></a> </div>';
 
 if (isset($_POST['oldPassword'])) {
-
+    //Récupération des mots de passe saisie
     $oldPassword = sha1($_POST['oldPassword']);
     $newPassword1 = sha1($_POST['newPassword1']);
     $newPassword2 = sha1($_POST['newPassword2']);
@@ -16,6 +16,7 @@ if (isset($_POST['oldPassword'])) {
     $user = new User($_SESSION['userId']);
     $password = $user->getPassword();
 
+    //Vérification du mot de passe actuelle et si les deux mots de passe correspondent. Si oui on modifie le mot de passe en conséquence.
     if ($password == $oldPassword && $newPassword1 == $newPassword2) {
         $passwordChange = $user->setPassword($newPassword1);
         $message= '<p class="bg-success text-success">Mot de passe modifié.</p>';
@@ -25,7 +26,7 @@ if (isset($_POST['oldPassword'])) {
     
 } elseif (isset($_POST['oldEmail'])) {
 
-
+    //Récupération des emails saisie
     $oldEmail = $_POST['oldEmail'];
     $newEmail1 = $_POST['newEmail1'];
     $newEmail2 = $_POST['newEmail2'];
@@ -33,6 +34,7 @@ if (isset($_POST['oldPassword'])) {
     $user = new User($_SESSION['userId']);
     $email = $user->getEmail();
 
+    //Vérification de l'email actuelle et si les deux emails correspondent. Si oui on modifie le mail en conséquence.
     if ($email == $oldEmail && $newEmail1 == $newEmail2) {
         $emailChange = $user->setEmail($newEmail1);
         $_SESSION['email'] = $newEmail1;
@@ -43,6 +45,7 @@ if (isset($_POST['oldPassword'])) {
     
 }elseif(isset($_POST['firstName'])){
     
+    //Changement du Prénom utilisateur
     $newFirstName = $_POST['firstName'];
     $user = new User($_SESSION['userId']);
     $firstName = $user->setFirstName($newFirstName);
@@ -51,6 +54,7 @@ if (isset($_POST['oldPassword'])) {
     
 }elseif(isset($_POST['name'])){
     
+    //Changement du nom utilisateur
     $newName = $_POST['name'];
     $user = new User($_SESSION['userId']);
     $name = $user->setName($newName);

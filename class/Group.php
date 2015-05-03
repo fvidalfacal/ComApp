@@ -7,6 +7,10 @@ class Group {
     private $id;
     private $name;
 
+    /**
+     * 
+     * @param int $id, l'identifiant du groupe qui permet de créer l'objet Group
+     */
     public function __construct($id) {
         $this->id = $id;
         $query = "SELECT id, name FROM groups WHERE id =?;"; //Requête pour récupérer les informations en fonction de l'id utilisateur
@@ -15,26 +19,48 @@ class Group {
         $this->name = $result[0]['name'];
     }
 
+    /**
+     * 
+     * @return int id
+     */
     public function getId() {
         return $this->id;
     }
 
+    /**
+     * Récupération de l'id du groupe selon son nom
+     * @param string $name
+     * @return array $result
+     */
     public static function getIdByName($name) {
         $sql = 'SELECT id FROM groups WHERE name = ?';
         $result = Connexion::table($sql, array($name));
         return $result;
     }
 
+    /**
+     * 
+     * @return string name
+     */
     public function getName() {
         return $this->name;
     }
 
+    /**
+     * Récupération du tout les groupes
+     * @return array $result
+     */
     public static function getAllGroups() {
         $sqlGetAllGroups = "SELECT id, name FROM groups;";
         $result = Connexion::table($sqlGetAllGroups, array());
         return $result;
     }
 
+    /**
+     * 
+     * @param array $groups
+     * @return array $groupsCreated
+     */
     public static function createGroups($groups) {
 
         $groupsCreated = array();
@@ -55,6 +81,12 @@ class Group {
         return $groupsCreated;
     }
 
+    /**
+     * Création du l'abonnement d'un utilisateur à un groupe
+     * @param int $userId
+     * @param string $groups
+     * @return array $groupsId
+     */
     public static function createSubscription($userId, $groups) {
         $groupsId = array();
         foreach ($groups as $group) {
@@ -69,6 +101,12 @@ class Group {
         return $groupsId;
     }
     
+    /**
+     * Suppression de l'abonnement d'un utilisateur à un groupe
+     * @param int $idUser
+     * @param int $idGroup
+     * @return bool
+     */
     public static function unsubscribe($idUser, $idGroup){
         
         $sqlUnsubscribe = 'DELETE FROM usersGroup WHERE idUser = ? AND idGroup = ?';

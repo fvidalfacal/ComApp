@@ -9,6 +9,10 @@ class Message {
     private $date;
     private $idUser;
 
+    /**
+     * 
+     * @param int $id, l'identifiant du message qui permet de créer l'objet Message
+     */
     public function __construct($id) {
         $this->id = $id;
         //Requête pour récupérer les informations en fonction de l'id utilisateur
@@ -20,18 +24,37 @@ class Message {
         $this->idUser = $results[0]['idUser'];
     }
 
+    /**
+     * 
+     * @return int id
+     */
     public function getId() {
         return $this->id;
     }
 
+    /**
+     * 
+     * @return string content
+     */
     public function getContent() {
         return $this->content;
     }
 
+    /**
+     * 
+     * @return Date date
+     */
     public function getDate() {
         return $this->date;
     }
 
+    /**
+     * Récupération de l'id du message à l'aide des informations du message
+     * @param string $content
+     * @param string $date
+     * @param int $userId
+     * @return array $result
+     */
     public static function getIdByContent($content, $date, $userId) {
 
         $sql = 'SELECT id FROM messages WHERE content = ? AND date = ? AND idUser = ?';
@@ -39,12 +62,21 @@ class Message {
         return $result;
     }
 
+    /**
+     * 
+     * @return \User
+     */
     public function getAuthor() {
         $idAuthor = $this->idUser;
         $user = new User($idAuthor);
         return $user;
     }
 
+    /**
+     * Récupération des messages d'un hashtag
+     * @param int $idHashtag
+     * @return \Message
+     */
     public static function getMessagesByIdHashtag($idHashtag) {
         //Récupération des ids de groups sur usersGroup en fonction de l'utilisateur
         $sql = 'SELECT messages.id, messages.date,messages.content
@@ -61,6 +93,11 @@ class Message {
         return $message;
     }
 
+    /**
+     * Insertion du message
+     * @param int $userId
+     * @param string $content
+     */
     public static function insertMessage($userId, $content) {
         $date = date('Y-m-d H-i-s');
 
@@ -88,6 +125,12 @@ class Message {
         $createLinkMessageGroup = self::createLinkMessageGroup($content, $date, $userId, $groups);
     }
 
+    /**
+     * Suppression d'un message
+     * @param int $idMessage
+     * @param int $idUser
+     * @return boolean
+     */
     public static function deleteMessage($idMessage, $idUser) {
         //On vérifie l'id de l'utilisateur qui supprime le message pour savoir si il est bien le créateur du message
         $sqlVerifyIdUser = 'SELECT messages.id from messages WHERE id = ? AND idUser = ?;';
@@ -105,6 +148,13 @@ class Message {
         }
     }
 
+    /**
+     * Création d'un lien entre le message et le/les groupes associés
+     * @param string $content
+     * @param Date $date
+     * @param int $userId
+     * @param array $groups
+     */
     public static function createLinkMessageGroup($content, $date, $userId, $groups) {
         foreach ($groups as $group) {
             //On récupère l'id du message

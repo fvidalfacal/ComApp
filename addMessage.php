@@ -5,6 +5,8 @@ if (!isset($_SESSION['connect']) || $_SESSION['connect'] == false) {
 }
 include ('includeClass.php');
 
+
+//Script d'insertion des messages
 $contentMessage = $_POST['content'];
 $userId = $_SESSION['userId'];
 

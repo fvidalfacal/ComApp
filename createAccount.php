@@ -38,6 +38,7 @@ include('includeClass.php');
 
     <body>
         <?php
+        //Vérification des informations saisies par l'utilisateur pour créer son compte
         if ($_POST) {
             if (isset($_POST['password']) && isset($_POST['password2']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['firstName'])) {
                 if (User::verifyPassword($_POST['password'])) {
@@ -79,6 +80,7 @@ include('includeClass.php');
                             <h3 class="panel-title">Créer votre compte !</h3>
                         </div>
 <?php
+//Affichage du message d'erreur si il y a une erreur
 if (isset($message)) {
     echo $message;
 }

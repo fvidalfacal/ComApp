@@ -21,13 +21,15 @@ include ('includeClass.php');
     <body>
         <?php
         if ($_GET) {
+            //Récupération des infos du message
             $idMessage = $_GET['id'];
             $from = $_GET['from'];
             $idUser = (isset($_SESSION['userId'])) ? $_SESSION['userId'] : null;
 
+            //Suppression du messageg
             $deleteMessage = Message::deleteMessage($idMessage, $idUser);
 
-
+            //Gestion de la suppression de message écrit par un autre utilisateur
             if ($deleteMessage) {
                 header('Location: ' . $from);
             } else {

@@ -10,9 +10,14 @@ class User {
     private $name;
     private $firstName;
 
+    
+    /**
+     * 
+     * @param int $id, l'identifiant de l'utilisateur qui permet de créer l'objet User
+     */
+    
     public function __construct($id) {
         $this->id = $id;
-        //Connexion à la base de données
         //Requête
         $query = "SELECT id, email, password, name, firstName FROM users WHERE id = ?;"; //Requête pour récupérer les informations en fonction de l'id utilisateur
         $result = Connexion::table($query, array($this->id));
@@ -22,6 +27,10 @@ class User {
         $this->firstName = $result[0]['firstName'];
     }
 
+    /**
+     * 
+     * @return int id
+     */
     public function getId() {
         return $this->id;
     }
@@ -42,12 +51,20 @@ class User {
         return $groups;
     }
 
+    /**
+     * 
+     * @return string email
+     */
     public function getEmail() {
         return $this->email;
     }
 
+    /**
+     * 
+     * @param string $email , adresse email à modifier
+     * @return bool
+     */
     public function setEmail($email) {
-        //Connexion à la base de données
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET email = ? WHERE id = ?;';
         $execute = Connexion::query($sql, array($email, $this->id));
@@ -55,8 +72,12 @@ class User {
         return $execute;
     }
 
+    /**
+     * 
+     * @param string $password , le mot de passe à modifier
+     * @return bool
+     */
     public function setPassword($password) {
-        //Connexion à la base de données
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET password = "' . $password . '" WHERE id = ' . $this->id . ';';
         $execute = Connexion::query($sql, array($password, $this->id));
@@ -64,12 +85,20 @@ class User {
         return $execute;
     }
 
+    /**
+     * 
+     * @return string name
+     */
     public function getName() {
         return $this->name;
     }
 
+    /**
+     * 
+     * @param string $name , nom utilisateur à modifier
+     * @return bool
+     */
     public function setName($name) {
-        //Connexion à la base de données
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET name = ? WHERE id = ?;';
         $execute = Connexion::query($sql, array($name, $this->id));
@@ -77,12 +106,20 @@ class User {
         return $execute;
     }
 
+    /**
+     * 
+     * @return string firstName
+     */
     public function getFirstName() {
         return $this->firstName;
     }
 
+    /**
+     * 
+     * @param string $firstName , prénom utilisateur à modifier
+     * @return bool
+     */
     public function setFirstName($firstName) {
-        //Connexion à la base de données
         //Requête de mis à jour du mot de passe
         $sql = 'UPDATE users SET email = ? WHERE id = ?;';
         $execute = Connexion::query($sql, array($firstName, $this->id));
@@ -90,18 +127,37 @@ class User {
         return $execute;
     }
 
+    /**
+     * Vérification des identifiants de l'utilisateur.
+     * @param string $email
+     * @param string $password
+     * @return array $results
+     */
     public static function verifyUser($email, $password) {
         $query = 'SELECT id, email,password, name , firstName FROM users WHERE email = ? AND password = ?;';
         $results = Connexion::table($query, array($email, $password));
         return $results;
     }
 
+    /**
+     * Création d'un utilisateur
+     * @param string $email
+     * @param string $password
+     * @param string $name
+     * @param string $firstName
+     * @return bool
+     */
     public static function createUser($email, $password, $name, $firstName) {
         $query = 'INSERT INTO users(email,password,name,firstName) VALUES (?,?,?,?)';
         $results = Connexion::query($query, array($email, $password, $name, $firstName));
         return $results;
     }
 
+    /**
+     * Vérification si le mot de passe saisie correspond bien aux règles de sécurité
+     * @param string $password
+     * @return bool
+     */
     public static function verifyPassword($password) {
         $regex = '('    // Commencement
                 . '(?=.*\d)'    // Le mot de passe doit contenir un chiffre

@@ -97,6 +97,7 @@ include ('includeClass.php');
                                 <a href="#"><i class="fa fa-tags fa-fw"></i> Groupe(s)<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <?php
+                                    // Récupération/Affichage de la liste des groupes associé à l'utilisateur dans la barre de navigation gauche
                                     $user = new User($_SESSION['userId']);
                                     $groupsUser = $user->getGroups();
                                     foreach ($groupsUser as $groupUser) {
@@ -120,7 +121,7 @@ include ('includeClass.php');
             <!-- AFFICHAGE DE LA PAGE DU GROUPE SÉLECTIONNÉ -->
             <?php
             if (isset($_GET['group'])) {
-
+                //Récupération des informations du groupe et de ses messages
                 $groupe = new Group($_GET['group']);
                 $nomGroupe = $groupe->getName();
 
@@ -134,6 +135,7 @@ include ('includeClass.php');
                         </div>
                     </div>
                     <?php
+                    // Si il y a des messages, création du tableau 
                     if ($messages) {
                         ?>
                         <table class="table table-striped table-bordered table-hover dataTable test no-footer">
@@ -299,6 +301,7 @@ include ('includeClass.php');
                 <?php
             } else {
                 ?>
+                <!-- Accueil -->
                 <div id="page-wrapper">
                     <div class="row">
 
