@@ -74,6 +74,13 @@ class User {
 
     /**
      * 
+     * @return string password
+     */
+    public function getPassword(){
+        return $this->password;
+    }
+    /**
+     * 
      * @param string $password , le mot de passe à modifier
      * @return bool
      */
