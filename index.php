@@ -100,11 +100,19 @@ include ('includeClass.php');
                                     // Récupération/Affichage de la liste des groupes associé à l'utilisateur dans la barre de navigation gauche
                                     $user = new User($_SESSION['userId']);
                                     $groupsUser = $user->getGroups();
-                                    foreach ($groupsUser as $groupUser) {
+                                    //Gestion si aucun groupe n'est associé à l'utilisateur
+                                    if (!is_null($groupsUser)){
+                                       foreach ($groupsUser as $groupUser) {
                                         ?>
                                         <li><a href="index.php?group=<?php echo $groupUser->getId() ?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
                                         <?php
+                                    } 
+                                    }else{
+                                        ?>
+                                        <li>Vous n'avez aucune inscription à un groupe</li>
+                                        <?php
                                     }
+                                    
                                     ?>
                                 </ul>
                                 <!-- /.nav-second-level -->

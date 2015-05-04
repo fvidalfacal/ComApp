@@ -10,12 +10,10 @@ class User {
     private $name;
     private $firstName;
 
-    
     /**
      * 
      * @param int $id, l'identifiant de l'utilisateur qui permet de créer l'objet User
      */
-    
     public function __construct($id) {
         $this->id = $id;
         //Requête
@@ -44,10 +42,14 @@ class User {
         $sql = 'SELECT * FROM usersGroup WHERE idUser=?;';
         $results = Connexion::table($sql, array($this->id));
         //Récupération des groups
-        foreach ($results as $result) {
-            $groups[] = new Group($result['idGroup']);
+        if (sizeof($results) > 1) {
+            foreach ($results as $result) {
+                $groups[] = new Group($result['idGroup']);
+            }
         }
-
+        else{
+            $groups = NULL;
+        }
         return $groups;
     }
 
@@ -76,9 +78,10 @@ class User {
      * 
      * @return string password
      */
-    public function getPassword(){
+    public function getPassword() {
         return $this->password;
     }
+
     /**
      * 
      * @param string $password , le mot de passe à modifier
