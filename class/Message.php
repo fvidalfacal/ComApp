@@ -89,7 +89,12 @@ class Message {
         foreach ($results as $result) {
             $message[] = new Message($result['id']);
         }
-
+        
+        //Gestion si il n'y pas de message dans un groupe
+        if (!isset($message)){
+            $message = false;
+        }
+            
         return $message;
     }
 
@@ -118,8 +123,8 @@ class Message {
         //Création de(s) hashtag(s) si ils sont non existants
         $groupsCreated = Group::createGroups($groups);
 
-        //Si le(s) groupe(s) n'existait pas, on abonne le créateur du message au(x) groupe(s)
-        $createSubscription = Group::createSubscription($userId, $groupsCreated);
+        //Création des abonnements de l'utilisateur aux groupes si ils n'existent pas
+        $createSubscription = Group::createSubscription($userId, $groups);
 
         //Relier le message aux groupes
         $createLinkMessageGroup = self::createLinkMessageGroup($content, $date, $userId, $groups);

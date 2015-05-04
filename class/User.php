@@ -131,7 +131,7 @@ class User {
      */
     public function setFirstName($firstName) {
         //Requête de mis à jour du mot de passe
-        $sql = 'UPDATE users SET email = ? WHERE id = ?;';
+        $sql = 'UPDATE users SET firstName = ? WHERE id = ?;';
         $execute = Connexion::query($sql, array($firstName, $this->id));
         $this->firstName = $firstName;
         return $execute;

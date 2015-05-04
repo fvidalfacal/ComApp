@@ -101,18 +101,17 @@ include ('includeClass.php');
                                     $user = new User($_SESSION['userId']);
                                     $groupsUser = $user->getGroups();
                                     //Gestion si aucun groupe n'est associé à l'utilisateur
-                                    if (!is_null($groupsUser)){
-                                       foreach ($groupsUser as $groupUser) {
-                                        ?>
-                                        <li><a href="index.php?group=<?php echo $groupUser->getId() ?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
-                                        <?php
-                                    } 
-                                    }else{
+                                    if (!is_null($groupsUser)) {
+                                        foreach ($groupsUser as $groupUser) {
+                                            ?>
+                                            <li><a href="index.php?group=<?php echo $groupUser->getId() ?>"><i class="fa fa-slack"></i><?php echo $groupUser->getName() ?></a></li>
+                                            <?php
+                                        }
+                                    } else {
                                         ?>
                                         <li>Vous n'avez aucune inscription à un groupe</li>
                                         <?php
                                     }
-                                    
                                     ?>
                                 </ul>
                                 <!-- /.nav-second-level -->
@@ -165,10 +164,10 @@ include ('includeClass.php');
                                         <td><?php echo $message->getContent(); ?></td>
                                         <td><?php echo $user->getFirstName() . ' ' . $user->getName(); ?></td>
                                         <td><?php
-                                            if ($user->getId() == $_SESSION['userId']) {
-                                                echo '<a class="btn btn-danger fa fa-times" href="deleteMessage.php?id=' . $message->getId() . '&from=' . $_SERVER['REQUEST_URI'] . '" role="button"></a>';
-                                            }
-                                            ?></td>
+                        if ($user->getId() == $_SESSION['userId']) {
+                            echo '<a class="btn btn-danger fa fa-times" href="deleteMessage.php?id=' . $message->getId() . '&from=' . $_SERVER['REQUEST_URI'] . '" role="button"></a>';
+                        }
+                                    ?></td>
                                     </tr>
                                     <?php
                                 }
@@ -177,7 +176,7 @@ include ('includeClass.php');
                         </table>
                         <?php
                     } else {
-                        echo '<p class="bg-danger text-danger">Il n\'y a pas de message pour ce groupe.</p>';
+                        echo '<div class = "alert alert-danger">Il n\'y a pas de message pour ce groupe.</div>';
                     }
                     ?>
                     <div class="row">
@@ -281,29 +280,41 @@ include ('includeClass.php');
                         </div>
                     </div>
                     <div class="row">
-                        <?php foreach ($groupsUser as $paramsGroupUser) { ?>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="panel panel-red">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <i class="fa fa-comments fa-5x"></i>
-                                            </div>
-                                            <div class="col-xs-9 text-right">
-                                                <div class="huge"><i class="fa fa-slack"></i><?php echo $paramsGroupUser->getName(); ?></div>
+                        <?php
+                        //Gestion si l'utilisateur n'est abonné à aucune groupe.
+                        if (sizeof($groupsUser) > 0) {
+                            //Affichage des groupes où l'utilisateur est abonné. Avec la possibilité de se désabonner.
+                            foreach ($groupsUser as $paramsGroupUser) {
+                                ?>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="panel panel-red">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <i class="fa fa-comments fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-9 text-right">
+                                                    <div class="huge"><i class="fa fa-slack"></i><?php echo $paramsGroupUser->getName(); ?></div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <a href="unsubscribe.php?id=<?php echo $paramsGroupUser->getId(); ?>">
+                                            <div class="panel-footer">
+                                                <span class="pull-left">Se désabonner</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
                                     </div>
-                                    <a href="unsubscribe.php?id=<?php echo $paramsGroupUser->getId(); ?>">
-                                        <div class="panel-footer">
-                                            <span class="pull-left">Se désabonner</span>
-                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </a>
                                 </div>
-                            </div>
-                        <?php } ?>
+                            <?php }
+                        } else {
+                            ?>
+                                <div class = "alert alert-info">
+                                    Vous n'avez aucun abonnement pour un ou plusieurs groupes.
+                                </div>
+                            <?php }
+                        ?>
                     </div>
                 </div>
                 <?php
@@ -402,21 +413,21 @@ include ('includeClass.php');
 
         <!-- Initialisation de DataTable -->
         <script type="text/javascript">
-                                        $(document).ready(function () {
-                                            $('.dataTable').DataTable({
-                                                "columns": [
-                                                    {"width": "10%"},
-                                                    null,
-                                                    {"width": "15%"},
-                                                    {"width": "5%"}
-                                                ],
-                                                "order": [[0, "desc"]],
-                                                "language": {
-                                                    "url"
-                                                            : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-                                                }
+                                            $(document).ready(function () {
+                                                $('.dataTable').DataTable({
+                                                    "columns": [
+                                                        {"width": "10%"},
+                                                        null,
+                                                        {"width": "15%"},
+                                                        {"width": "5%"}
+                                                    ],
+                                                    "order": [[0, "desc"]],
+                                                    "language": {
+                                                        "url"
+                                                                : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                                                    }
+                                                });
                                             });
-                                        });
         </script>
     </body>
 
